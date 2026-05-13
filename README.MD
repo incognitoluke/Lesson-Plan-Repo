@@ -7,3 +7,7 @@
 4. Test Projects
 
 ### Tutorials & Resources:
+
+Cheatsheets for HTML / CSS: [W3Schools](https://www.w3schools.com/html/default.asp)
+
+
