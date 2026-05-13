@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Inputs & Forms Lesson</title>
+    <style>
+    </style>
+  </head>
+  <body>
+
+
+    <!-- Page Title -->
+    <div>
+
+      <h1>Inputs & Forms</h1>
+      <p>This lesson covers how to <strong>collect information</strong> from users using <em>HTML forms</em>.</p>
+
+    </div>
+
+
+    <!-- Text Input -->
+    <div>
+
+      <h2>Text Input</h2>
+      <p>The most basic input. Users type text into a box.</p>
+
+      <label>Your Name:</label>
+      <br>
+      <input type="text" placeholder="Jane Doe">
+
+    </div>
+
+
+    <!-- Email Input -->
+    <div>
+
+      <h2>Email Input</h2>
+      <p>Just like text, but the browser checks that it <em>looks like</em> an email.</p>
+
+      <label>Your Email:</label>
+      <br>
+      <input type="email" placeholder="jane@example.com">
+
+    </div>
+
+
+    <!-- Password Input -->
+    <div>
+
+      <h2>Password Input</h2>
+      <p>The text is <strong>hidden</strong> with dots so nobody can read it.</p>
+
+      <label>Your Password:</label>
+      <br>
+      <input type="password" placeholder="secret123">
+
+    </div>
+
+
+    <!-- Number Input -->
+    <div>
+
+      <h2>Number Input</h2>
+      <p>Only allows <strong>numbers</strong>. Has little up/down arrows.</p>
+
+      <label>Your Age:</label>
+      <br>
+      <input type="number" min="1" max="120" placeholder="25">
+
+    </div>
+
+
+    <!-- Date Input -->
+    <div>
+
+      <h2>Date Input</h2>
+      <p>Opens a <strong>calendar picker</strong> in most browsers.</p>
+
+      <label>Your Birthday:</label>
+      <br>
+      <input type="date">
+
+    </div>
+
+
+    <!-- Color Input -->
+    <div>
+
+      <h2>Color Input</h2>
+      <p>Opens a <strong>color picker</strong>. Try clicking it!</p>
+
+      <label>Pick a Color:</label>
+      <br>
+      <input type="color" value="#3498db">
+
+    </div>
+
+
+    <!-- Textarea -->
+    <div>
+
+      <h2>Textarea</h2>
+      <p>For when you need <strong>more than one line</strong> of text.</p>
+
+      <label>Tell me about yourself:</label>
+      <br>
+      <textarea rows="4" cols="40" placeholder="I like long walks on the beach..."></textarea>
+
+    </div>
+
+
+    <!-- Checkbox -->
+    <div>
+
+      <h2>Checkboxes</h2>
+      <p>Let users pick <strong>one or more</strong> options.</p>
+
+      <p>What toppings do you want?</p>
+      <input type="checkbox"> <label>Pepperoni</label> <br>
+      <input type="checkbox"> <label>Mushrooms</label> <br>
+      <input type="checkbox"> <label>Extra Cheese</label>
+
+    </div>
+
+
+    <!-- Radio Buttons -->
+    <div>
+
+      <h2>Radio Buttons</h2>
+      <p>Let users pick <strong>only one</strong> option from a group.</p>
+
+      <p>What size drink?</p>
+      <input type="radio" name="size"> <label>Small</label> <br>
+      <input type="radio" name="size"> <label>Medium</label> <br>
+      <input type="radio" name="size"> <label>Large</label>
+
+    </div>
+
+
+    <!-- Select / Dropdown -->
+    <div>
+
+      <h2>Dropdown Menu</h2>
+      <p>A compact way to pick <strong>one option</strong> from a list.</p>
+
+      <label>Favorite season:</label>
+      <br>
+      <select>
+        <option value="">-- Pick one --</option>
+        <option value="spring">Spring</option>
+        <option value="summer">Summer</option>
+        <option value="fall">Fall</option>
+        <option value="winter">Winter</option>
+      </select>
+
+    </div>
+
+
+    <!-- Button -->
+    <div>
+
+      <h2>Buttons</h2>
+      <p>Buttons do things when you <strong>click</strong> them.</p>
+
+      <button type="button">Click Me!</button>
+
+    </div>
+
+
+    <!-- Putting It All Together: A Simple Form -->
+    <div>
+
+      <h2>Putting It All Together</h2>
+      <p>The <mark>&lt;form&gt;</mark> tag wraps everything into one group that can be <strong>submitted</strong>.</p>
+
+      <form>
+
+        <label>Name:</label>
+        <br>
+        <input type="text" name="name" placeholder="Your name" required>
+        <br><br>
+
+        <label>Email:</label>
+        <br>
+        <input type="email" name="email" placeholder="you@email.com" required>
+        <br><br>
+
+        <label>Password:</label>
+        <br>
+        <input type="password" name="password" placeholder="Pick a password" required>
+        <br><br>
+
+        <label>How old are you?</label>
+        <br>
+        <input type="number" name="age" min="1" max="120" placeholder="25">
+        <br><br>
+
+        <label>Tell us about yourself:</label>
+        <br>
+        <textarea name="bio" rows="3" cols="40" placeholder="I love tacos..."></textarea>
+        <br><br>
+
+        <p><strong>Favorite food:</strong></p>
+        <input type="radio" name="food" value="pizza"> <label>Pizza</label> <br>
+        <input type="radio" name="food" value="tacos"> <label>Tacos</label> <br>
+        <input type="radio" name="food" value="sushi"> <label>Sushi</label>
+        <br><br>
+
+        <p><strong>I agree to the terms:</strong></p>
+        <input type="checkbox" name="terms"> <label>Yes, I agree</label>
+        <br><br>
+
+        <button type="submit">Sign Up</button>
+        <button type="reset">Clear Everything</button>
+
+      </form>
+
+    </div>
+
+
+    <!-- Quick Reference -->
+    <div>
+
+      <h2>Quick Reference</h2>
+      <p>Here are the <strong>input types</strong> you learned today:</p>
+
+      <ul>
+        <li><strong>text</strong> — basic text box</li>
+        <li><strong>email</strong> — text box that checks for @</li>
+        <li><strong>password</strong> — hides what you type</li>
+        <li><strong>number</strong> — only numbers allowed</li>
+        <li><strong>date</strong> — calendar picker</li>
+        <li><strong>color</strong> — color picker</li>
+        <li><strong>checkbox</strong> — pick many options</li>
+        <li><strong>radio</strong> — pick one option</li>
+      </ul>
+
+      <p>And these other form elements:</p>
+
+      <ul>
+        <li><strong>&lt;textarea&gt;</strong> — multi-line text box</li>
+        <li><strong>&lt;select&gt;</strong> — dropdown menu</li>
+        <li><strong>&lt;button&gt;</strong> — clickable button</li>
+        <li><strong>&lt;form&gt;</strong> — wraps everything together</li>
+        <li><strong>&lt;label&gt;</strong> — describes an input</li>
+      </ul>
+
+    </div>
+
+
+  </body>
+</html>

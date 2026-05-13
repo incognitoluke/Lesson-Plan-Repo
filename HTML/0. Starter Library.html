@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Element Library</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0e1117;
+      --surface: #161b22;
+      --surface-raised: #1c2129;
+      --border: #2a3140;
+      --border-light: #353e4d;
+      --text: #e2e8f0;
+      --text-muted: #8b95a5;
+      --accent: #58d68d;
+      --accent-dim: #2d7a4d;
+      --accent-bg: rgba(88, 214, 141, 0.07);
+      --code-bg: #0d1117;
+      --tag-color: #ff7b72;
+      --attr-color: #79c0ff;
+      --string-color: #a5d6ff;
+      --comment-color: #6a7585;
+      --punct-color: #8b949e;
+      --sidebar-w: 260px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ========== SIDEBAR NAV ========== */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      z-index: 100;
+      padding-bottom: 40px;
+    }
+
+    .sidebar-logo {
+      padding: 28px 22px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-logo h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.2em;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+
+    .sidebar-logo span {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7em;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-top: 2px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .sidebar-section-title {
+      font-size: 0.65em;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      padding: 20px 22px 8px;
+      font-weight: 600;
+    }
+
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 22px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85em;
+      font-weight: 500;
+      transition: all 0.15s;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar a:hover {
+      color: var(--text);
+      background: var(--accent-bg);
+      border-left-color: var(--accent);
+    }
+
+    .sidebar a .tag-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82em;
+      color: var(--tag-color);
+      opacity: 0.7;
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 0 48px 80px;
+      max-width: 1100px;
+    }
+
+    .hero {
+      padding: 60px 0 40px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 48px;
+    }
+
+    .hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 2.6em;
+      font-weight: 900;
+      color: var(--text);
+      letter-spacing: -0.03em;
+    }
+
+    .hero h1 em {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      margin-top: 10px;
+      font-size: 1.05em;
+      max-width: 580px;
+    }
+
+    /* ========== ELEMENT CARD ========== */
+    .element-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 36px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .element-card:hover {
+      border-color: var(--border-light);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-raised);
+    }
+
+    .card-header h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.25em;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .card-header h2 code {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--tag-color);
+      font-size: 0.85em;
+      background: rgba(255,123,114,0.1);
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 8px;
+    }
+
+    .element-type {
+      font-size: 0.7em;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      background: var(--accent-bg);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .card-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .card-preview {
+      padding: 28px 28px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card-preview-label,
+    .card-code-label {
+      font-size: 0.65em;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    /* Reset preview area so elements render naturally */
+    .preview-area {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 20px;
+      color: #1a1a1a;
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.6;
+      min-height: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .preview-area h1 { font-size: 1.8em; color: #111; margin: 0; }
+    .preview-area h2 { font-size: 1.4em; color: #222; margin: 0; }
+    .preview-area h3 { font-size: 1.15em; color: #333; margin: 0; }
+    .preview-area h4 { font-size: 1em; color: #444; margin: 0; }
+    .preview-area h5 { font-size: 0.9em; color: #555; margin: 0; }
+    .preview-area h6 { font-size: 0.8em; color: #666; margin: 0; }
+    .preview-area p { margin: 4px 0; }
+    .preview-area a { color: #1a5fb4; }
+    .preview-area ul, .preview-area ol { padding-left: 20px; margin: 4px 0; }
+    .preview-area li { margin: 2px 0; }
+    .preview-area img { max-width: 100%; border-radius: 4px; }
+    .preview-area table { border-collapse: collapse; width: 100%; font-size: 0.9em; }
+    .preview-area th, .preview-area td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
+    .preview-area th { background: #f0f0f0; font-weight: 600; }
+    .preview-area blockquote { border-left: 3px solid #ccc; margin: 4px 0; padding: 8px 14px; color: #555; font-style: italic; background: #fafafa; }
+    .preview-area hr { border: none; border-top: 2px solid #ddd; margin: 10px 0; }
+    .preview-area code { background: #f3f3f3; padding: 2px 6px; border-radius: 3px; font-family: 'JetBrains Mono', monospace; font-size: 0.88em; color: #c44; }
+    .preview-area pre { background: #1e1e1e; color: #d4d4d4; padding: 14px; border-radius: 6px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
+    .preview-area input[type="text"],
+    .preview-area input[type="email"],
+    .preview-area input[type="password"] { padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9em; width: 100%; max-width: 250px; }
+    .preview-area textarea { padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9em; width: 100%; max-width: 250px; resize: vertical; }
+    .preview-area select { padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9em; }
+    .preview-area button { padding: 8px 18px; background: #1a5fb4; color: #fff; border: none; border-radius: 4px; font-size: 0.9em; cursor: pointer; }
+    .preview-area label { font-weight: 500; margin-right: 6px; }
+    .preview-area .form-group { margin-bottom: 8px; }
+
+    .card-code {
+      padding: 28px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow: hidden;
+    }
+
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82em;
+      line-height: 1.7;
+      white-space: pre;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .code-block .t { color: var(--tag-color); }       /* tags */
+    .code-block .a { color: var(--attr-color); }      /* attributes */
+    .code-block .s { color: var(--string-color); }    /* strings */
+    .code-block .c { color: var(--comment-color); }   /* comments */
+    .code-block .p { color: var(--punct-color); }     /* punctuation */
+    .code-block .x { color: var(--text); }            /* content text */
+
+    /* ========== ATTRIBUTES TABLE ========== */
+    .attr-table {
+      width: 100%;
+      font-size: 0.82em;
+      margin-top: 4px;
+    }
+
+    .attr-table th {
+      text-align: left;
+      color: var(--accent);
+      font-weight: 600;
+      padding: 6px 10px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9em;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .attr-table td {
+      padding: 5px 10px;
+      border-bottom: 1px solid rgba(42,49,64,0.5);
+      vertical-align: top;
+    }
+
+    .attr-table code {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--attr-color);
+      font-size: 0.95em;
+      background: rgba(121,192,255,0.08);
+      padding: 1px 6px;
+      border-radius: 3px;
+    }
+
+    .attr-table .desc {
+      color: var(--text-muted);
+    }
+
+    .attr-section-label {
+      font-size: 0.7em;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-top: 14px;
+      margin-bottom: 4px;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 0 20px 60px; }
+      .card-body { grid-template-columns: 1fr; }
+      .card-preview { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== SIDEBAR ========== -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <h1>&lt;/&gt; HTML Element Library</h1>
+      <span>Quick Reference Cheatsheet</span>
+    </div>
+
+    <div class="sidebar-section-title">Text &amp; Headings</div>
+    <a href="#headings"><span class="tag-badge">&lt;h1&gt;–&lt;h6&gt;</span> Headings</a>
+    <a href="#paragraph"><span class="tag-badge">&lt;p&gt;</span> Paragraph</a>
+    <a href="#text-formatting"><span class="tag-badge">&lt;strong&gt;</span> Text Formatting</a>
+    <a href="#blockquote"><span class="tag-badge">&lt;blockquote&gt;</span> Blockquote</a>
+    <a href="#code"><span class="tag-badge">&lt;code&gt;</span> Code</a>
+    <a href="#hr"><span class="tag-badge">&lt;hr&gt;</span> Horizontal Rule</a>
+    <a href="#br"><span class="tag-badge">&lt;br&gt;</span> Line Break</a>
+
+    <div class="sidebar-section-title">Links &amp; Media</div>
+    <a href="#anchor"><span class="tag-badge">&lt;a&gt;</span> Link</a>
+    <a href="#image"><span class="tag-badge">&lt;img&gt;</span> Image</a>
+    <a href="#video"><span class="tag-badge">&lt;video&gt;</span> Video</a>
+    <a href="#audio"><span class="tag-badge">&lt;audio&gt;</span> Audio</a>
+
+    <div class="sidebar-section-title">Lists</div>
+    <a href="#ul"><span class="tag-badge">&lt;ul&gt;</span> Unordered List</a>
+    <a href="#ol"><span class="tag-badge">&lt;ol&gt;</span> Ordered List</a>
+
+    <div class="sidebar-section-title">Tables</div>
+    <a href="#table"><span class="tag-badge">&lt;table&gt;</span> Table</a>
+
+    <div class="sidebar-section-title">Forms</div>
+    <a href="#input"><span class="tag-badge">&lt;input&gt;</span> Input</a>
+    <a href="#textarea"><span class="tag-badge">&lt;textarea&gt;</span> Textarea</a>
+    <a href="#select"><span class="tag-badge">&lt;select&gt;</span> Select / Dropdown</a>
+    <a href="#button"><span class="tag-badge">&lt;button&gt;</span> Button</a>
+    <a href="#form"><span class="tag-badge">&lt;form&gt;</span> Form</a>
+
+    <div class="sidebar-section-title">Layout / Structure</div>
+    <a href="#div-span"><span class="tag-badge">&lt;div&gt;</span> Div &amp; Span</a>
+    <a href="#semantic"><span class="tag-badge">&lt;section&gt;</span> Semantic Tags</a>
+  </nav>
+
+  <!-- ========== MAIN ========== -->
+  <div class="main">
+    <div class="hero">
+      <h1>HTML <em>Element</em> Library</h1>
+      <p>Every common HTML element in one place. See how it looks on the left, and the code to make it on the right.</p>
+    </div>
+
+    <!-- ==================== HEADINGS ==================== -->
+    <div class="element-card" id="headings">
+      <div class="card-header">
+        <h2>Headings <code>&lt;h1&gt; – &lt;h6&gt;</code></h2>
+        <span class="element-type">Text</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <h1>Heading 1</h1>
+            <h2>Heading 2</h2>
+            <h3>Heading 3</h3>
+            <h4>Heading 4</h4>
+            <h5>Heading 5</h5>
+            <h6>Heading 6</h6>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="p">&lt;</span><span class="t">h1</span><span class="p">&gt;</span><span class="x">Heading 1</span><span class="p">&lt;/</span><span class="t">h1</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="t">h2</span><span class="p">&gt;</span><span class="x">Heading 2</span><span class="p">&lt;/</span><span class="t">h2</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="t">h3</span><span class="p">&gt;</span><span class="x">Heading 3</span><span class="p">&lt;/</span><span class="t">h3</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="t">h4</span><span class="p">&gt;</span><span class="x">Heading 4</span><span class="p">&lt;/</span><span class="t">h4</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="t">h5</span><span class="p">&gt;</span><span class="x">Heading 5</span><span class="p">&lt;/</span><span class="t">h5</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="t">h6</span><span class="p">&gt;</span><span class="x">Heading 6</span><span class="p">&lt;/</span><span class="t">h6</span><span class="p">&gt;</span></div>
+          <div class="attr-section-label">No special attributes — just content inside the tags.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PARAGRAPH ==================== -->
+    <div class="element-card" id="paragraph">
+      <div class="card-header">
+        <h2>Paragraph <code>&lt;p&gt;</code></h2>
+        <span class="element-type">Text</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <p>This is a paragraph. It wraps text into a block with spacing above and below.</p>
+            <p>This is a second paragraph. Browsers add a gap between them automatically.</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="p">&lt;</span><span class="t">p</span><span class="p">&gt;</span><span class="x">This is a paragraph.</span><span class="p">&lt;/</span><span class="t">p</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="t">p</span><span class="p">&gt;</span><span class="x">This is a second paragraph.</span><span class="p">&lt;/</span><span class="t">p</span><span class="p">&gt;</span></div>
+          <div class="attr-section-label">No special attributes needed.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TEXT FORMATTING ==================== -->
+    <div class="element-card" id="text-formatting">
+      <div class="card-header">
+        <h2>Text Formatting <code>&lt;strong&gt; &lt;em&gt; &lt;mark&gt;</code></h2>
+        <span class="element-type">Inline</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <p>This is <strong>bold text</strong> using strong.</p>
+            <p>This is <em>italic text</em> using em.</p>
+            <p>This is <mark>highlighted text</mark> using mark.</p>
+            <p>This is <small>small text</small> using small.</p>
+            <p>This is <del>deleted text</del> using del.</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="p">&lt;</span><span class="t">strong</span><span class="p">&gt;</span><span class="x">bold text</span><span class="p">&lt;/</span><span class="t">strong</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="t">em</span><span class="p">&gt;</span><span class="x">italic text</span><span class="p">&lt;/</span><span class="t">em</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="t">mark</span><span class="p">&gt;</span><span class="x">highlighted text</span><span class="p">&lt;/</span><span class="t">mark</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="t">small</span><span class="p">&gt;</span><span class="x">small text</span><span class="p">&lt;/</span><span class="t">small</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="t">del</span><span class="p">&gt;</span><span class="x">deleted text</span><span class="p">&lt;/</span><span class="t">del</span><span class="p">&gt;</span></div>
+          <div class="attr-section-label">These wrap around text — no attributes needed.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== BLOCKQUOTE ==================== -->
+    <div class="element-card" id="blockquote">
+      <div class="card-header">
+        <h2>Blockquote <code>&lt;blockquote&gt;</code></h2>
+        <span class="element-type">Text</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <blockquote cite="https://example.com">
+              The only way to do great work is to love what you do.
+            </blockquote>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="p">&lt;</span><span class="t">blockquote</span> <span class="a">cite</span><span class="p">=</span><span class="s">"https://example.com"</span><span class="p">&gt;</span>
+  <span class="x">The only way to do great work</span>
+  <span class="x">is to love what you do.</span>
+<span class="p">&lt;/</span><span class="t">blockquote</span><span class="p">&gt;</span></div>
+          <table class="attr-table">
+            <tr><th>Attribute</th><th>Description</th></tr>
+            <tr><td><code>cite</code></td><td class="desc">URL of the quote source (optional)</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== CODE ==================== -->
+    <div class="element-card" id="code">
+      <div class="card-header">
+        <h2>Code <code>&lt;code&gt; &lt;pre&gt;</code></h2>
+        <span class="element-type">Inline / Block</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <p>Use <code>console.log()</code> to debug.</p>
+            <pre>function greet(name) {
+  return "Hello, " + name;
+}</pre>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="c">&lt;!-- Inline code --&gt;</span>
+<span class="p">&lt;</span><span class="t">p</span><span class="p">&gt;</span><span class="x">Use </span><span class="p">&lt;</span><span class="t">code</span><span class="p">&gt;</span><span class="x">console.log()</span><span class="p">&lt;/</span><span class="t">code</span><span class="p">&gt;</span><span class="x"> to debug.</span><span class="p">&lt;/</span><span class="t">p</span><span class="p">&gt;</span>
+
+<span class="c">&lt;!-- Code block --&gt;</span>
+<span class="p">&lt;</span><span class="t">pre</span><span class="p">&gt;</span>
+<span class="x">function greet(name) {</span>
+<span class="x">  return "Hello, " + name;</span>
+<span class="x">}</span>
+<span class="p">&lt;/</span><span class="t">pre</span><span class="p">&gt;</span></div>
+          <div class="attr-section-label"><code>&lt;code&gt;</code> = inline snippet. <code>&lt;pre&gt;</code> = preserves whitespace for blocks.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== HR ==================== -->
+    <div class="element-card" id="hr">
+      <div class="card-header">
+        <h2>Horizontal Rule <code>&lt;hr&gt;</code></h2>
+        <span class="element-type">Separator</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <p>Section one content above.</p>
+            <hr>
+            <p>Section two content below.</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="p">&lt;</span><span class="t">p</span><span class="p">&gt;</span><span class="x">Section one content above.</span><span class="p">&lt;/</span><span class="t">p</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="t">hr</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="t">p</span><span class="p">&gt;</span><span class="x">Section two content below.</span><span class="p">&lt;/</span><span class="t">p</span><span class="p">&gt;</span></div>
+          <div class="attr-section-label">Self-closing tag — no content or closing tag needed.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== BR ==================== -->
+    <div class="element-card" id="br">
+      <div class="card-header">
+        <h2>Line Break <code>&lt;br&gt;</code></h2>
+        <span class="element-type">Inline</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <p>Line one<br>Line two<br>Line three</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="p">&lt;</span><span class="t">p</span><span class="p">&gt;</span>
+  <span class="x">Line one</span><span class="p">&lt;</span><span class="t">br</span><span class="p">&gt;</span>
+  <span class="x">Line two</span><span class="p">&lt;</span><span class="t">br</span><span class="p">&gt;</span>
+  <span class="x">Line three</span>
+<span class="p">&lt;/</span><span class="t">p</span><span class="p">&gt;</span></div>
+          <div class="attr-section-label">Self-closing. Forces a new line without starting a new block.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== ANCHOR ==================== -->
+    <div class="element-card" id="anchor">
+      <div class="card-header">
+        <h2>Link <code>&lt;a&gt;</code></h2>
+        <span class="element-type">Inline</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <p>Visit <a href="https://example.com" target="_blank">Example.com</a> for more.</p>
+            <p>Jump to <a href="#headings">the Headings section</a> on this page.</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="c">&lt;!-- External link --&gt;</span>
+<span class="p">&lt;</span><span class="t">a</span> <span class="a">href</span><span class="p">=</span><span class="s">"https://example.com"</span> <span class="a">target</span><span class="p">=</span><span class="s">"_blank"</span><span class="p">&gt;</span>
+  <span class="x">Example.com</span>
+<span class="p">&lt;/</span><span class="t">a</span><span class="p">&gt;</span>
+
+<span class="c">&lt;!-- Internal link (same page) --&gt;</span>
+<span class="p">&lt;</span><span class="t">a</span> <span class="a">href</span><span class="p">=</span><span class="s">"#headings"</span><span class="p">&gt;</span><span class="x">Headings section</span><span class="p">&lt;/</span><span class="t">a</span><span class="p">&gt;</span></div>
+          <table class="attr-table">
+            <tr><th>Attribute</th><th>Description</th></tr>
+            <tr><td><code>href</code></td><td class="desc">URL or #id to link to <strong>(required)</strong></td></tr>
+            <tr><td><code>target</code></td><td class="desc"><code>"_blank"</code> opens in new tab</td></tr>
+            <tr><td><code>title</code></td><td class="desc">Tooltip text on hover</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== IMAGE ==================== -->
+    <div class="element-card" id="image">
+      <div class="card-header">
+        <h2>Image <code>&lt;img&gt;</code></h2>
+        <span class="element-type">Media</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <img src="https://picsum.photos/seed/htmllib/360/180" alt="A sample landscape photo" width="360">
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="p">&lt;</span><span class="t">img</span>
+  <span class="a">src</span><span class="p">=</span><span class="s">"photo.jpg"</span>
+  <span class="a">alt</span><span class="p">=</span><span class="s">"A sample landscape photo"</span>
+  <span class="a">width</span><span class="p">=</span><span class="s">"360"</span>
+<span class="p">&gt;</span></div>
+          <table class="attr-table">
+            <tr><th>Attribute</th><th>Description</th></tr>
+            <tr><td><code>src</code></td><td class="desc">Path or URL to the image <strong>(required)</strong></td></tr>
+            <tr><td><code>alt</code></td><td class="desc">Describes the image for accessibility <strong>(required)</strong></td></tr>
+            <tr><td><code>width</code></td><td class="desc">Width in pixels</td></tr>
+            <tr><td><code>height</code></td><td class="desc">Height in pixels</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VIDEO ==================== -->
+    <div class="element-card" id="video">
+      <div class="card-header">
+        <h2>Video <code>&lt;video&gt;</code></h2>
+        <span class="element-type">Media</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="text-align:center; color:#888;">
+            <div style="background:#eee; padding:30px; border-radius:6px; font-size:0.9em;">▶ Video player appears here<br><small>(no video file loaded)</small></div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="p">&lt;</span><span class="t">video</span> <span class="a">controls</span> <span class="a">width</span><span class="p">=</span><span class="s">"400"</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="t">source</span>
+    <span class="a">src</span><span class="p">=</span><span class="s">"video.mp4"</span>
+    <span class="a">type</span><span class="p">=</span><span class="s">"video/mp4"</span><span class="p">&gt;</span>
+  <span class="x">Your browser doesn't support video.</span>
+<span class="p">&lt;/</span><span class="t">video</span><span class="p">&gt;</span></div>
+          <table class="attr-table">
+            <tr><th>Attribute</th><th>Description</th></tr>
+            <tr><td><code>controls</code></td><td class="desc">Shows play/pause/volume controls</td></tr>
+            <tr><td><code>width</code></td><td class="desc">Player width in pixels</td></tr>
+            <tr><td><code>autoplay</code></td><td class="desc">Starts playing automatically</td></tr>
+            <tr><td><code>loop</code></td><td class="desc">Replays when finished</td></tr>
+            <tr><td><code>muted</code></td><td class="desc">Starts muted</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== AUDIO ==================== -->
+    <div class="element-card" id="audio">
+      <div class="card-header">
+        <h2>Audio <code>&lt;audio&gt;</code></h2>
+        <span class="element-type">Media</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="text-align:center; color:#888;">
+            <div style="background:#eee; padding:20px; border-radius:6px; font-size:0.9em;">🔊 Audio player appears here<br><small>(no audio file loaded)</small></div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="p">&lt;</span><span class="t">audio</span> <span class="a">controls</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="t">source</span>
+    <span class="a">src</span><span class="p">=</span><span class="s">"song.mp3"</span>
+    <span class="a">type</span><span class="p">=</span><span class="s">"audio/mpeg"</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="t">audio</span><span class="p">&gt;</span></div>
+          <table class="attr-table">
+            <tr><th>Attribute</th><th>Description</th></tr>
+            <tr><td><code>controls</code></td><td class="desc">Shows the audio player UI</td></tr>
+            <tr><td><code>autoplay</code></td><td class="desc">Starts playing automatically</td></tr>
+            <tr><td><code>loop</code></td><td class="desc">Replays when finished</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== UNORDERED LIST ==================== -->
+    <div class="element-card" id="ul">
+      <div class="card-header">
+        <h2>Unordered List <code>&lt;ul&gt;</code></h2>
+        <span class="element-type">List</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <ul>
+              <li>Apples</li>
+              <li>Bananas</li>
+              <li>Cherries</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="p">&lt;</span><span class="t">ul</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="t">li</span><span class="p">&gt;</span><span class="x">Apples</span><span class="p">&lt;/</span><span class="t">li</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="t">li</span><span class="p">&gt;</span><span class="x">Bananas</span><span class="p">&lt;/</span><span class="t">li</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="t">li</span><span class="p">&gt;</span><span class="x">Cherries</span><span class="p">&lt;/</span><span class="t">li</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="t">ul</span><span class="p">&gt;</span></div>
+          <div class="attr-section-label"><code>&lt;ul&gt;</code> = bullet points. Each item is a <code>&lt;li&gt;</code>.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== ORDERED LIST ==================== -->
+    <div class="element-card" id="ol">
+      <div class="card-header">
+        <h2>Ordered List <code>&lt;ol&gt;</code></h2>
+        <span class="element-type">List</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <ol>
+              <li>Preheat the oven</li>
+              <li>Mix the ingredients</li>
+              <li>Bake for 25 minutes</li>
+            </ol>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="p">&lt;</span><span class="t">ol</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="t">li</span><span class="p">&gt;</span><span class="x">Preheat the oven</span><span class="p">&lt;/</span><span class="t">li</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="t">li</span><span class="p">&gt;</span><span class="x">Mix the ingredients</span><span class="p">&lt;/</span><span class="t">li</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="t">li</span><span class="p">&gt;</span><span class="x">Bake for 25 minutes</span><span class="p">&lt;/</span><span class="t">li</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="t">ol</span><span class="p">&gt;</span></div>
+          <table class="attr-table">
+            <tr><th>Attribute</th><th>Description</th></tr>
+            <tr><td><code>start</code></td><td class="desc">Starting number (e.g. <code>start="5"</code>)</td></tr>
+            <tr><td><code>type</code></td><td class="desc"><code>"1"</code>, <code>"A"</code>, <code>"a"</code>, <code>"I"</code>, <code>"i"</code></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TABLE ==================== -->
+    <div class="element-card" id="table">
+      <div class="card-header">
+        <h2>Table <code>&lt;table&gt;</code></h2>
+        <span class="element-type">Data</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <table>
+              <thead>
+                <tr><th>Name</th><th>Age</th><th>City</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Alice</td><td>28</td><td>NYC</td></tr>
+                <tr><td>Bob</td><td>34</td><td>LA</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="p">&lt;</span><span class="t">table</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="t">thead</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="t">tr</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="t">th</span><span class="p">&gt;</span><span class="x">Name</span><span class="p">&lt;/</span><span class="t">th</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="t">th</span><span class="p">&gt;</span><span class="x">Age</span><span class="p">&lt;/</span><span class="t">th</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="t">th</span><span class="p">&gt;</span><span class="x">City</span><span class="p">&lt;/</span><span class="t">th</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="t">tr</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="t">thead</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="t">tbody</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="t">tr</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="t">td</span><span class="p">&gt;</span><span class="x">Alice</span><span class="p">&lt;/</span><span class="t">td</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="t">td</span><span class="p">&gt;</span><span class="x">28</span><span class="p">&lt;/</span><span class="t">td</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="t">td</span><span class="p">&gt;</span><span class="x">NYC</span><span class="p">&lt;/</span><span class="t">td</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="t">tr</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="t">tbody</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="t">table</span><span class="p">&gt;</span></div>
+          <div class="attr-section-label"><code>&lt;tr&gt;</code> = row, <code>&lt;th&gt;</code> = header cell, <code>&lt;td&gt;</code> = data cell</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== INPUT ==================== -->
+    <div class="element-card" id="input">
+      <div class="card-header">
+        <h2>Input <code>&lt;input&gt;</code></h2>
+        <span class="element-type">Form</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <div class="form-group">
+              <label>Text:</label>
+              <input type="text" placeholder="Your name">
+            </div>
+            <div class="form-group">
+              <label>Email:</label>
+              <input type="email" placeholder="you@email.com">
+            </div>
+            <div class="form-group">
+              <label>Password:</label>
+              <input type="password" placeholder="••••••">
+            </div>
+            <div class="form-group">
+              <label><input type="checkbox"> I agree to the terms</label>
+            </div>
+            <div class="form-group">
+              <label><input type="radio" name="color"> Red</label>
+              <label><input type="radio" name="color"> Blue</label>
+            </div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="p">&lt;</span><span class="t">input</span> <span class="a">type</span><span class="p">=</span><span class="s">"text"</span> <span class="a">placeholder</span><span class="p">=</span><span class="s">"Your name"</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="t">input</span> <span class="a">type</span><span class="p">=</span><span class="s">"email"</span> <span class="a">placeholder</span><span class="p">=</span><span class="s">"you@email.com"</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="t">input</span> <span class="a">type</span><span class="p">=</span><span class="s">"password"</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="t">input</span> <span class="a">type</span><span class="p">=</span><span class="s">"checkbox"</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="t">input</span> <span class="a">type</span><span class="p">=</span><span class="s">"radio"</span> <span class="a">name</span><span class="p">=</span><span class="s">"color"</span><span class="p">&gt;</span></div>
+          <table class="attr-table">
+            <tr><th>Attribute</th><th>Description</th></tr>
+            <tr><td><code>type</code></td><td class="desc"><code>"text"</code>, <code>"email"</code>, <code>"password"</code>, <code>"checkbox"</code>, <code>"radio"</code>, <code>"number"</code>, <code>"date"</code></td></tr>
+            <tr><td><code>name</code></td><td class="desc">Field name for form submission</td></tr>
+            <tr><td><code>placeholder</code></td><td class="desc">Hint text shown when empty</td></tr>
+            <tr><td><code>value</code></td><td class="desc">Pre-filled value</td></tr>
+            <tr><td><code>required</code></td><td class="desc">Must be filled before submitting</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TEXTAREA ==================== -->
+    <div class="element-card" id="textarea">
+      <div class="card-header">
+        <h2>Textarea <code>&lt;textarea&gt;</code></h2>
+        <span class="element-type">Form</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <label>Message:</label><br>
+            <textarea rows="3" placeholder="Write your message here..."></textarea>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="p">&lt;</span><span class="t">textarea</span>
+  <span class="a">rows</span><span class="p">=</span><span class="s">"3"</span>
+  <span class="a">placeholder</span><span class="p">=</span><span class="s">"Write your message..."</span>
+<span class="p">&gt;&lt;/</span><span class="t">textarea</span><span class="p">&gt;</span></div>
+          <table class="attr-table">
+            <tr><th>Attribute</th><th>Description</th></tr>
+            <tr><td><code>rows</code></td><td class="desc">Visible height in text lines</td></tr>
+            <tr><td><code>cols</code></td><td class="desc">Visible width in characters</td></tr>
+            <tr><td><code>placeholder</code></td><td class="desc">Hint text when empty</td></tr>
+            <tr><td><code>name</code></td><td class="desc">Field name for form submission</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SELECT ==================== -->
+    <div class="element-card" id="select">
+      <div class="card-header">
+        <h2>Select / Dropdown <code>&lt;select&gt;</code></h2>
+        <span class="element-type">Form</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <label>Pick a fruit: </label>
+            <select>
+              <option value="">-- Choose --</option>
+              <option value="apple">Apple</option>
+              <option value="banana">Banana</option>
+              <option value="cherry">Cherry</option>
+            </select>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="p">&lt;</span><span class="t">select</span> <span class="a">name</span><span class="p">=</span><span class="s">"fruit"</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="t">option</span> <span class="a">value</span><span class="p">=</span><span class="s">""</span><span class="p">&gt;</span><span class="x">-- Choose --</span><span class="p">&lt;/</span><span class="t">option</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="t">option</span> <span class="a">value</span><span class="p">=</span><span class="s">"apple"</span><span class="p">&gt;</span><span class="x">Apple</span><span class="p">&lt;/</span><span class="t">option</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="t">option</span> <span class="a">value</span><span class="p">=</span><span class="s">"banana"</span><span class="p">&gt;</span><span class="x">Banana</span><span class="p">&lt;/</span><span class="t">option</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="t">select</span><span class="p">&gt;</span></div>
+          <table class="attr-table">
+            <tr><th>Attribute</th><th>Description</th></tr>
+            <tr><td><code>name</code></td><td class="desc">Field name for form submission</td></tr>
+            <tr><td><code>value</code></td><td class="desc">On <code>&lt;option&gt;</code> — the submitted value</td></tr>
+            <tr><td><code>selected</code></td><td class="desc">On <code>&lt;option&gt;</code> — pre-selects it</td></tr>
+            <tr><td><code>multiple</code></td><td class="desc">Allow selecting multiple options</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== BUTTON ==================== -->
+    <div class="element-card" id="button">
+      <div class="card-header">
+        <h2>Button <code>&lt;button&gt;</code></h2>
+        <span class="element-type">Form</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <button type="button">Click Me</button>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="p">&lt;</span><span class="t">button</span> <span class="a">type</span><span class="p">=</span><span class="s">"button"</span><span class="p">&gt;</span><span class="x">Click Me</span><span class="p">&lt;/</span><span class="t">button</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="t">button</span> <span class="a">type</span><span class="p">=</span><span class="s">"submit"</span><span class="p">&gt;</span><span class="x">Submit</span><span class="p">&lt;/</span><span class="t">button</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="t">button</span> <span class="a">type</span><span class="p">=</span><span class="s">"reset"</span><span class="p">&gt;</span><span class="x">Reset</span><span class="p">&lt;/</span><span class="t">button</span><span class="p">&gt;</span></div>
+          <table class="attr-table">
+            <tr><th>Attribute</th><th>Description</th></tr>
+            <tr><td><code>type</code></td><td class="desc"><code>"button"</code>, <code>"submit"</code> (sends form), or <code>"reset"</code> (clears form)</td></tr>
+            <tr><td><code>disabled</code></td><td class="desc">Grays out the button</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== FORM ==================== -->
+    <div class="element-card" id="form">
+      <div class="card-header">
+        <h2>Form <code>&lt;form&gt;</code></h2>
+        <span class="element-type">Form</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <form onsubmit="return false;">
+              <div class="form-group">
+                <label for="demo-name">Name:</label>
+                <input type="text" id="demo-name" placeholder="Jane Doe">
+              </div>
+              <div class="form-group">
+                <label for="demo-email">Email:</label>
+                <input type="email" id="demo-email" placeholder="jane@example.com">
+              </div>
+              <button type="submit">Submit</button>
+            </form>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="p">&lt;</span><span class="t">form</span> <span class="a">action</span><span class="p">=</span><span class="s">"/submit"</span> <span class="a">method</span><span class="p">=</span><span class="s">"POST"</span><span class="p">&gt;</span>
+
+  <span class="p">&lt;</span><span class="t">label</span> <span class="a">for</span><span class="p">=</span><span class="s">"name"</span><span class="p">&gt;</span><span class="x">Name:</span><span class="p">&lt;/</span><span class="t">label</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="t">input</span> <span class="a">type</span><span class="p">=</span><span class="s">"text"</span> <span class="a">id</span><span class="p">=</span><span class="s">"name"</span> <span class="a">name</span><span class="p">=</span><span class="s">"name"</span><span class="p">&gt;</span>
+
+  <span class="p">&lt;</span><span class="t">label</span> <span class="a">for</span><span class="p">=</span><span class="s">"email"</span><span class="p">&gt;</span><span class="x">Email:</span><span class="p">&lt;/</span><span class="t">label</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="t">input</span> <span class="a">type</span><span class="p">=</span><span class="s">"email"</span> <span class="a">id</span><span class="p">=</span><span class="s">"email"</span> <span class="a">name</span><span class="p">=</span><span class="s">"email"</span><span class="p">&gt;</span>
+
+  <span class="p">&lt;</span><span class="t">button</span> <span class="a">type</span><span class="p">=</span><span class="s">"submit"</span><span class="p">&gt;</span><span class="x">Submit</span><span class="p">&lt;/</span><span class="t">button</span><span class="p">&gt;</span>
+
+<span class="p">&lt;/</span><span class="t">form</span><span class="p">&gt;</span></div>
+          <table class="attr-table">
+            <tr><th>Attribute</th><th>Description</th></tr>
+            <tr><td><code>action</code></td><td class="desc">URL where form data is sent</td></tr>
+            <tr><td><code>method</code></td><td class="desc"><code>"GET"</code> (in URL) or <code>"POST"</code> (in body)</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== DIV & SPAN ==================== -->
+    <div class="element-card" id="div-span">
+      <div class="card-header">
+        <h2>Div &amp; Span <code>&lt;div&gt; &lt;span&gt;</code></h2>
+        <span class="element-type">Layout</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <div style="background:#e8f4fd; padding:12px; border-radius:4px; margin-bottom:8px;">
+              This is inside a <strong>div</strong> (block-level box).
+            </div>
+            <p>This sentence has a <span style="color:#c0392b; font-weight:bold;">red span</span> inside it (inline).</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="c">&lt;!-- Block-level container --&gt;</span>
+<span class="p">&lt;</span><span class="t">div</span> <span class="a">style</span><span class="p">=</span><span class="s">"background: #e8f4fd;"</span><span class="p">&gt;</span>
+  <span class="x">Content inside a div.</span>
+<span class="p">&lt;/</span><span class="t">div</span><span class="p">&gt;</span>
+
+<span class="c">&lt;!-- Inline container --&gt;</span>
+<span class="p">&lt;</span><span class="t">p</span><span class="p">&gt;</span><span class="x">A </span><span class="p">&lt;</span><span class="t">span</span> <span class="a">style</span><span class="p">=</span><span class="s">"color: red;"</span><span class="p">&gt;</span><span class="x">red span</span><span class="p">&lt;/</span><span class="t">span</span><span class="p">&gt;</span><span class="x"> inside.</span><span class="p">&lt;/</span><span class="t">p</span><span class="p">&gt;</span></div>
+          <div class="attr-section-label"><code>&lt;div&gt;</code> = block container (full width). <code>&lt;span&gt;</code> = inline container (wraps text).</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SEMANTIC TAGS ==================== -->
+    <div class="element-card" id="semantic">
+      <div class="card-header">
+        <h2>Semantic Layout Tags</h2>
+        <span class="element-type">Structure</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="font-size:0.85em;">
+            <div style="background:#2c6e49; color:#fff; padding:8px 12px; border-radius:4px 4px 0 0;">
+              <strong>&lt;header&gt;</strong> — Site title, logo, nav
+            </div>
+            <div style="background:#d4edda; padding:6px 12px; border-left:3px solid #2c6e49;">
+              <strong>&lt;nav&gt;</strong> — Navigation links
+            </div>
+            <div style="background:#f8f9fa; padding:8px 12px; min-height:50px;">
+              <strong>&lt;main&gt;</strong> — Primary page content
+              <div style="background:#fff3cd; padding:6px 12px; margin:6px 0; border-radius:3px;">
+                <strong>&lt;section&gt;</strong> — Grouped content
+              </div>
+              <div style="background:#e2e3e5; padding:6px 12px; border-radius:3px;">
+                <strong>&lt;article&gt;</strong> — Self-contained content
+              </div>
+            </div>
+            <div style="background:#1b4332; color:#d8f3dc; padding:8px 12px; border-radius:0 0 4px 4px;">
+              <strong>&lt;footer&gt;</strong> — Copyright, links
+            </div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="p">&lt;</span><span class="t">header</span><span class="p">&gt;</span><span class="x"> Site title &amp; nav </span><span class="p">&lt;/</span><span class="t">header</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="t">nav</span><span class="p">&gt;</span><span class="x"> Navigation links </span><span class="p">&lt;/</span><span class="t">nav</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="t">main</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="t">section</span><span class="p">&gt;</span><span class="x"> Grouped content </span><span class="p">&lt;/</span><span class="t">section</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="t">article</span><span class="p">&gt;</span><span class="x"> Self-contained </span><span class="p">&lt;/</span><span class="t">article</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="t">aside</span><span class="p">&gt;</span><span class="x"> Sidebar content </span><span class="p">&lt;/</span><span class="t">aside</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="t">main</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="t">footer</span><span class="p">&gt;</span><span class="x"> Copyright &amp; links </span><span class="p">&lt;/</span><span class="t">footer</span><span class="p">&gt;</span></div>
+          <div class="attr-section-label">Same as <code>&lt;div&gt;</code> but with meaning — helps search engines and screen readers understand your page structure.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
