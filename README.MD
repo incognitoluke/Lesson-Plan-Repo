@@ -22,7 +22,7 @@
     - Basics / Syntax
     - Convert Project to Tailwind
 5. Javascript
-
+6. Typescript
 
 ---
 

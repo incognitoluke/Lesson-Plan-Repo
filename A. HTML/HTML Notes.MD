@@ -21,6 +21,4 @@ Basis of all HTML:
 - On it's own HTML has very little styling although some elements like <strong></strong> can
 
 
-Cheatsheets for HTML / CSS: [W3Schools](https://www.w3schools.com/html/default.asp)
-
 
