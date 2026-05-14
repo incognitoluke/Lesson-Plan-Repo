@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Property Library</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0e1117;
+      --surface: #161b22;
+      --surface-raised: #1c2129;
+      --border: #2a3140;
+      --border-light: #353e4d;
+      --text: #e2e8f0;
+      --text-muted: #8b95a5;
+      --accent: #a78bfa;
+      --accent-dim: #6d48c9;
+      --accent-bg: rgba(167, 139, 250, 0.07);
+      --code-bg: #0d1117;
+      --prop-color: #79c0ff;
+      --value-color: #a5d6ff;
+      --selector-color: #ff7b72;
+      --comment-color: #6a7585;
+      --punct-color: #8b949e;
+      --string-color: #a5d6ff;
+      --sidebar-w: 260px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ========== SIDEBAR NAV ========== */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      z-index: 100;
+      padding-bottom: 40px;
+    }
+
+    .sidebar-logo {
+      padding: 28px 22px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-logo h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.2em;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+
+    .sidebar-logo span {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7em;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-top: 2px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .sidebar-section-title {
+      font-size: 0.65em;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      padding: 20px 22px 8px;
+      font-weight: 600;
+    }
+
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 22px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85em;
+      font-weight: 500;
+      transition: all 0.15s;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar a:hover {
+      color: var(--text);
+      background: var(--accent-bg);
+      border-left-color: var(--accent);
+    }
+
+    .sidebar a .prop-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82em;
+      color: var(--prop-color);
+      opacity: 0.7;
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 0 48px 80px;
+      max-width: 1100px;
+    }
+
+    .hero {
+      padding: 60px 0 40px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 48px;
+    }
+
+    .hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 2.6em;
+      font-weight: 900;
+      color: var(--text);
+      letter-spacing: -0.03em;
+    }
+
+    .hero h1 em {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      margin-top: 10px;
+      font-size: 1.05em;
+      max-width: 580px;
+    }
+
+    /* ========== ELEMENT CARD ========== */
+    .element-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 36px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .element-card:hover {
+      border-color: var(--border-light);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-raised);
+    }
+
+    .card-header h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.25em;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .card-header h2 code {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--prop-color);
+      font-size: 0.85em;
+      background: rgba(121,192,255,0.1);
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 8px;
+    }
+
+    .element-type {
+      font-size: 0.7em;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      background: var(--accent-bg);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .card-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .card-preview {
+      padding: 28px 28px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card-preview-label,
+    .card-code-label {
+      font-size: 0.65em;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    /* Reset preview area so elements render naturally */
+    .preview-area {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 20px;
+      color: #1a1a1a;
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.6;
+      min-height: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .preview-area h1 { font-size: 1.8em; color: #111; margin: 0; }
+    .preview-area h2 { font-size: 1.4em; color: #222; margin: 0; }
+    .preview-area h3 { font-size: 1.15em; color: #333; margin: 0; }
+    .preview-area p { margin: 4px 0; }
+    .preview-area a { color: #1a5fb4; }
+
+    .card-code {
+      padding: 28px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow: hidden;
+    }
+
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82em;
+      line-height: 1.7;
+      white-space: pre;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .code-block .s { color: var(--selector-color); }    /* selectors */
+    .code-block .p { color: var(--prop-color); }        /* properties */
+    .code-block .v { color: var(--value-color); }       /* values */
+    .code-block .c { color: var(--comment-color); }     /* comments */
+    .code-block .x { color: var(--punct-color); }       /* punctuation */
+    .code-block .t { color: var(--selector-color); }    /* html tags */
+    .code-block .a { color: var(--prop-color); }        /* html attributes */
+    .code-block .str { color: var(--string-color); }    /* html strings */
+
+    /* ========== VALUES TABLE ========== */
+    .attr-table {
+      width: 100%;
+      font-size: 0.82em;
+      margin-top: 4px;
+    }
+
+    .attr-table th {
+      text-align: left;
+      color: var(--accent);
+      font-weight: 600;
+      padding: 6px 10px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9em;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .attr-table td {
+      padding: 5px 10px;
+      border-bottom: 1px solid rgba(42,49,64,0.5);
+      vertical-align: top;
+    }
+
+    .attr-table code {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--prop-color);
+      font-size: 0.95em;
+      background: rgba(121,192,255,0.08);
+      padding: 1px 6px;
+      border-radius: 3px;
+    }
+
+    .attr-table .desc {
+      color: var(--text-muted);
+    }
+
+    .attr-section-label {
+      font-size: 0.7em;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-top: 14px;
+      margin-bottom: 4px;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 0 20px 60px; }
+      .card-body { grid-template-columns: 1fr; }
+      .card-preview { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== SIDEBAR ========== -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <h1>{ } CSS Property Library</h1>
+      <span>Quick Reference Cheatsheet</span>
+    </div>
+
+    <div class="sidebar-section-title">How CSS Works</div>
+    <a href="#where-css-goes"><span class="prop-badge">&lt;style&gt;</span> Where CSS Goes</a>
+    <a href="#selectors"><span class="prop-badge">h1, .class</span> Selectors</a>
+    <a href="#class-id"><span class="prop-badge">.class #id</span> Class &amp; ID</a>
+
+    <div class="sidebar-section-title">Text &amp; Fonts</div>
+    <a href="#color"><span class="prop-badge">color</span> Text Color</a>
+    <a href="#font-size"><span class="prop-badge">font-size</span> Font Size</a>
+    <a href="#font-family"><span class="prop-badge">font-family</span> Font Family</a>
+    <a href="#font-weight"><span class="prop-badge">font-weight</span> Font Weight</a>
+    <a href="#text-align"><span class="prop-badge">text-align</span> Text Align</a>
+    <a href="#text-decoration"><span class="prop-badge">text-decoration</span> Text Decoration</a>
+    <a href="#line-height"><span class="prop-badge">line-height</span> Line Height</a>
+
+    <div class="sidebar-section-title">Colors &amp; Backgrounds</div>
+    <a href="#background-color"><span class="prop-badge">background-color</span> Background</a>
+    <a href="#opacity"><span class="prop-badge">opacity</span> Opacity</a>
+
+    <div class="sidebar-section-title">The Box Model</div>
+    <a href="#width-height"><span class="prop-badge">width/height</span> Width &amp; Height</a>
+    <a href="#padding"><span class="prop-badge">padding</span> Padding</a>
+    <a href="#margin"><span class="prop-badge">margin</span> Margin</a>
+    <a href="#border"><span class="prop-badge">border</span> Border</a>
+    <a href="#border-radius"><span class="prop-badge">border-radius</span> Border Radius</a>
+    <a href="#box-model-diagram"><span class="prop-badge">box model</span> Full Diagram</a>
+
+    <div class="sidebar-section-title">Layout</div>
+    <a href="#display"><span class="prop-badge">display</span> Display</a>
+    <a href="#flexbox"><span class="prop-badge">flexbox</span> Flexbox</a>
+    <a href="#gap"><span class="prop-badge">gap</span> Gap</a>
+
+    <div class="sidebar-section-title">Extras</div>
+    <a href="#hover"><span class="prop-badge">:hover</span> Hover Effect</a>
+    <a href="#box-shadow"><span class="prop-badge">box-shadow</span> Box Shadow</a>
+    <a href="#cursor"><span class="prop-badge">cursor</span> Cursor</a>
+    <a href="#units"><span class="prop-badge">px, %, em</span> CSS Units</a>
+  </nav>
+
+  <!-- ========== MAIN ========== -->
+  <div class="main">
+    <div class="hero">
+      <h1>CSS <em>Property</em> Library</h1>
+      <p>Every common CSS property in one place. See how it looks on the left, and the code to make it on the right.</p>
+    </div>
+
+
+    <!-- ==================== WHERE CSS GOES ==================== -->
+    <div class="element-card" id="where-css-goes">
+      <div class="card-header">
+        <h2>Where CSS Goes <code>&lt;style&gt;</code></h2>
+        <span class="element-type">Setup</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <p style="color: #c0392b; font-weight: bold;">This text is red and bold because CSS told it to be.</p>
+            <p>Without CSS, every page looks the same — plain black text on white.</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="c">/* CSS goes inside a &lt;style&gt; tag in &lt;head&gt; */</span>
+
+<span class="x">&lt;</span><span class="t">head</span><span class="x">&gt;</span>
+  <span class="x">&lt;</span><span class="t">style</span><span class="x">&gt;</span>
+    <span class="s">p</span> <span class="x">{</span>
+      <span class="p">color</span><span class="x">:</span> <span class="v">red</span><span class="x">;</span>
+      <span class="p">font-weight</span><span class="x">:</span> <span class="v">bold</span><span class="x">;</span>
+    <span class="x">}</span>
+  <span class="x">&lt;/</span><span class="t">style</span><span class="x">&gt;</span>
+<span class="x">&lt;/</span><span class="t">head</span><span class="x">&gt;</span></div>
+          <div class="attr-section-label">CSS = "Cascading Style Sheets." It controls how HTML looks — colors, sizes, spacing, layout.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== SELECTORS ==================== -->
+    <div class="element-card" id="selectors">
+      <div class="card-header">
+        <h2>Selectors <code>h1, p, div</code></h2>
+        <span class="element-type">Setup</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <h2 style="color:#8e44ad;">This h2 is purple</h2>
+            <p style="color:#2980b9;">This paragraph is blue</p>
+            <p style="color:#2980b9;">So is this one — same rule hits all &lt;p&gt; tags</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="c">/* Target elements by their tag name */</span>
+
+<span class="s">h2</span> <span class="x">{</span>
+  <span class="p">color</span><span class="x">:</span> <span class="v">purple</span><span class="x">;</span>
+<span class="x">}</span>
+
+<span class="s">p</span> <span class="x">{</span>
+  <span class="p">color</span><span class="x">:</span> <span class="v">blue</span><span class="x">;</span>
+<span class="x">}</span></div>
+          <div class="attr-section-label">A selector picks which elements get styled. Tag selectors style ALL elements of that type.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== CLASS & ID ==================== -->
+    <div class="element-card" id="class-id">
+      <div class="card-header">
+        <h2>Class &amp; ID <code>.class  #id</code></h2>
+        <span class="element-type">Setup</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <p style="color:#27ae60; font-weight:600;">This has class="highlight"</p>
+            <p>This paragraph has no class — unaffected.</p>
+            <h2 style="color:#e74c3c; border-bottom:2px solid #e74c3c;">This has id="page-title"</h2>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="c">/* Class — reusable, starts with a dot */</span>
+<span class="s">.highlight</span> <span class="x">{</span>
+  <span class="p">color</span><span class="x">:</span> <span class="v">green</span><span class="x">;</span>
+  <span class="p">font-weight</span><span class="x">:</span> <span class="v">bold</span><span class="x">;</span>
+<span class="x">}</span>
+
+<span class="c">/* ID — unique, starts with a hash */</span>
+<span class="s">#page-title</span> <span class="x">{</span>
+  <span class="p">color</span><span class="x">:</span> <span class="v">red</span><span class="x">;</span>
+<span class="x">}</span></div>
+          <table class="attr-table">
+            <tr><th>Type</th><th>HTML</th><th>CSS</th></tr>
+            <tr><td><code>class</code></td><td class="desc"><code>class="highlight"</code></td><td class="desc"><code>.highlight { }</code></td></tr>
+            <tr><td><code>id</code></td><td class="desc"><code>id="page-title"</code></td><td class="desc"><code>#page-title { }</code></td></tr>
+          </table>
+          <div class="attr-section-label">Classes can be reused on many elements. IDs should be unique — only one per page.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== COLOR ==================== -->
+    <div class="element-card" id="color">
+      <div class="card-header">
+        <h2>Text Color <code>color</code></h2>
+        <span class="element-type">Text</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <p style="color:tomato;">This is tomato</p>
+            <p style="color:#3498db;">This is #3498db</p>
+            <p style="color:rgb(46,204,113);">This is rgb(46, 204, 113)</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">p</span> <span class="x">{</span> <span class="p">color</span><span class="x">:</span> <span class="v">tomato</span><span class="x">;</span> <span class="x">}</span>
+
+<span class="s">p</span> <span class="x">{</span> <span class="p">color</span><span class="x">:</span> <span class="v">#3498db</span><span class="x">;</span> <span class="x">}</span>
+
+<span class="s">p</span> <span class="x">{</span> <span class="p">color</span><span class="x">:</span> <span class="v">rgb(46, 204, 113)</span><span class="x">;</span> <span class="x">}</span></div>
+          <table class="attr-table">
+            <tr><th>Format</th><th>Example</th></tr>
+            <tr><td><code>named</code></td><td class="desc"><code>red</code>, <code>tomato</code>, <code>steelblue</code></td></tr>
+            <tr><td><code>hex</code></td><td class="desc"><code>#ff0000</code>, <code>#3498db</code></td></tr>
+            <tr><td><code>rgb()</code></td><td class="desc"><code>rgb(255, 0, 0)</code></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== FONT SIZE ==================== -->
+    <div class="element-card" id="font-size">
+      <div class="card-header">
+        <h2>Font Size <code>font-size</code></h2>
+        <span class="element-type">Text</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <p style="font-size:12px;">12px — small text</p>
+            <p style="font-size:16px;">16px — default size</p>
+            <p style="font-size:24px;">24px — bigger text</p>
+            <p style="font-size:36px;">36px — large heading</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">.small</span>  <span class="x">{</span> <span class="p">font-size</span><span class="x">:</span> <span class="v">12px</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.normal</span> <span class="x">{</span> <span class="p">font-size</span><span class="x">:</span> <span class="v">16px</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.big</span>    <span class="x">{</span> <span class="p">font-size</span><span class="x">:</span> <span class="v">24px</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.huge</span>   <span class="x">{</span> <span class="p">font-size</span><span class="x">:</span> <span class="v">36px</span><span class="x">;</span> <span class="x">}</span></div>
+          <div class="attr-section-label">Use <code>px</code> for now. You'll learn other units like <code>em</code> and <code>rem</code> later.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== FONT FAMILY ==================== -->
+    <div class="element-card" id="font-family">
+      <div class="card-header">
+        <h2>Font Family <code>font-family</code></h2>
+        <span class="element-type">Text</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <p style="font-family: Arial, sans-serif;">Arial (sans-serif)</p>
+            <p style="font-family: Georgia, serif;">Georgia (serif)</p>
+            <p style="font-family: 'Courier New', monospace;">Courier New (monospace)</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">body</span> <span class="x">{</span>
+  <span class="p">font-family</span><span class="x">:</span> <span class="v">Arial, sans-serif</span><span class="x">;</span>
+<span class="x">}</span>
+
+<span class="s">h1</span> <span class="x">{</span>
+  <span class="p">font-family</span><span class="x">:</span> <span class="v">Georgia, serif</span><span class="x">;</span>
+<span class="x">}</span></div>
+          <table class="attr-table">
+            <tr><th>Type</th><th>Examples</th></tr>
+            <tr><td><code>sans-serif</code></td><td class="desc">Arial, Helvetica, Verdana</td></tr>
+            <tr><td><code>serif</code></td><td class="desc">Georgia, Times New Roman</td></tr>
+            <tr><td><code>monospace</code></td><td class="desc">Courier New, Consolas</td></tr>
+          </table>
+          <div class="attr-section-label">Always end with a generic family (sans-serif, serif, monospace) as a fallback.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== FONT WEIGHT ==================== -->
+    <div class="element-card" id="font-weight">
+      <div class="card-header">
+        <h2>Font Weight <code>font-weight</code></h2>
+        <span class="element-type">Text</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <p style="font-weight:300;">Light (300)</p>
+            <p style="font-weight:400;">Normal (400)</p>
+            <p style="font-weight:700;">Bold (700)</p>
+            <p style="font-weight:900;">Black (900)</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">p</span> <span class="x">{</span> <span class="p">font-weight</span><span class="x">:</span> <span class="v">normal</span><span class="x">;</span> <span class="x">}</span>   <span class="c">/* 400 */</span>
+<span class="s">p</span> <span class="x">{</span> <span class="p">font-weight</span><span class="x">:</span> <span class="v">bold</span><span class="x">;</span> <span class="x">}</span>     <span class="c">/* 700 */</span>
+<span class="s">p</span> <span class="x">{</span> <span class="p">font-weight</span><span class="x">:</span> <span class="v">900</span><span class="x">;</span> <span class="x">}</span>      <span class="c">/* extra bold */</span></div>
+          <div class="attr-section-label">Values: <code>normal</code>, <code>bold</code>, or numbers from 100–900.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== TEXT ALIGN ==================== -->
+    <div class="element-card" id="text-align">
+      <div class="card-header">
+        <h2>Text Align <code>text-align</code></h2>
+        <span class="element-type">Text</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <p style="text-align:left; background:#f0f0f0; padding:6px; border-radius:4px;">Left (default)</p>
+            <p style="text-align:center; background:#f0f0f0; padding:6px; border-radius:4px; margin-top:6px;">Center</p>
+            <p style="text-align:right; background:#f0f0f0; padding:6px; border-radius:4px; margin-top:6px;">Right</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">.left</span>   <span class="x">{</span> <span class="p">text-align</span><span class="x">:</span> <span class="v">left</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.center</span> <span class="x">{</span> <span class="p">text-align</span><span class="x">:</span> <span class="v">center</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.right</span>  <span class="x">{</span> <span class="p">text-align</span><span class="x">:</span> <span class="v">right</span><span class="x">;</span> <span class="x">}</span></div>
+          <div class="attr-section-label">Values: <code>left</code>, <code>center</code>, <code>right</code>, <code>justify</code></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== TEXT DECORATION ==================== -->
+    <div class="element-card" id="text-decoration">
+      <div class="card-header">
+        <h2>Text Decoration <code>text-decoration</code></h2>
+        <span class="element-type">Text</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <p style="text-decoration:underline;">Underlined text</p>
+            <p style="text-decoration:line-through;">Strikethrough text</p>
+            <p><a href="#" style="text-decoration:none; color:#1a5fb4;">Link with no underline</a></p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">.underline</span> <span class="x">{</span> <span class="p">text-decoration</span><span class="x">:</span> <span class="v">underline</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.strike</span>    <span class="x">{</span> <span class="p">text-decoration</span><span class="x">:</span> <span class="v">line-through</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">a</span>          <span class="x">{</span> <span class="p">text-decoration</span><span class="x">:</span> <span class="v">none</span><span class="x">;</span> <span class="x">}</span></div>
+          <div class="attr-section-label">Use <code>none</code> on links to remove the default underline.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== LINE HEIGHT ==================== -->
+    <div class="element-card" id="line-height">
+      <div class="card-header">
+        <h2>Line Height <code>line-height</code></h2>
+        <span class="element-type">Text</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <p style="line-height:1.0; background:#fff3cd; padding:8px; border-radius:4px; margin-bottom:8px; font-size:0.9em;">Line height 1.0 — the lines are cramped together and hard to read when there is a lot of text.</p>
+            <p style="line-height:1.8; background:#d4edda; padding:8px; border-radius:4px; font-size:0.9em;">Line height 1.8 — much more breathing room between lines, which makes paragraphs easier to read.</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">.tight</span>   <span class="x">{</span> <span class="p">line-height</span><span class="x">:</span> <span class="v">1.0</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.relaxed</span> <span class="x">{</span> <span class="p">line-height</span><span class="x">:</span> <span class="v">1.8</span><span class="x">;</span> <span class="x">}</span></div>
+          <div class="attr-section-label">A number with no unit (like 1.6) is a multiplier of the font size. 1.5–1.8 is good for body text.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== BACKGROUND COLOR ==================== -->
+    <div class="element-card" id="background-color">
+      <div class="card-header">
+        <h2>Background Color <code>background-color</code></h2>
+        <span class="element-type">Color</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:6px;">
+            <div style="background-color:#3498db; color:white; padding:12px; border-radius:4px;">Blue background</div>
+            <div style="background-color:#2ecc71; color:white; padding:12px; border-radius:4px;">Green background</div>
+            <div style="background-color:#f1c40f; padding:12px; border-radius:4px;">Yellow background</div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">.blue-box</span> <span class="x">{</span>
+  <span class="p">background-color</span><span class="x">:</span> <span class="v">#3498db</span><span class="x">;</span>
+  <span class="p">color</span><span class="x">:</span> <span class="v">white</span><span class="x">;</span>
+<span class="x">}</span>
+
+<span class="s">body</span> <span class="x">{</span>
+  <span class="p">background-color</span><span class="x">:</span> <span class="v">#f5f5f5</span><span class="x">;</span>
+<span class="x">}</span></div>
+          <div class="attr-section-label">Same color formats as <code>color</code> — names, hex, or rgb().</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== OPACITY ==================== -->
+    <div class="element-card" id="opacity">
+      <div class="card-header">
+        <h2>Opacity <code>opacity</code></h2>
+        <span class="element-type">Color</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:6px;">
+            <div style="background:#e74c3c; color:white; padding:10px; border-radius:4px; opacity:1.0;">opacity: 1.0 (full)</div>
+            <div style="background:#e74c3c; color:white; padding:10px; border-radius:4px; opacity:0.6;">opacity: 0.6</div>
+            <div style="background:#e74c3c; color:white; padding:10px; border-radius:4px; opacity:0.3;">opacity: 0.3</div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">.faded</span> <span class="x">{</span>
+  <span class="p">opacity</span><span class="x">:</span> <span class="v">0.5</span><span class="x">;</span>  <span class="c">/* 50% see-through */</span>
+<span class="x">}</span></div>
+          <div class="attr-section-label">Range: <code>0</code> (invisible) to <code>1</code> (fully visible). Affects the entire element.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== WIDTH & HEIGHT ==================== -->
+    <div class="element-card" id="width-height">
+      <div class="card-header">
+        <h2>Width &amp; Height <code>width / height</code></h2>
+        <span class="element-type">Box Model</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <div style="width:200px; height:60px; background:#3498db; color:white; display:flex; align-items:center; justify-content:center; border-radius:4px; margin-bottom:8px; font-size:0.85em;">200px × 60px</div>
+            <div style="width:100%; height:40px; background:#9b59b6; color:white; display:flex; align-items:center; justify-content:center; border-radius:4px; font-size:0.85em;">width: 100%</div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">.box</span> <span class="x">{</span>
+  <span class="p">width</span><span class="x">:</span> <span class="v">200px</span><span class="x">;</span>
+  <span class="p">height</span><span class="x">:</span> <span class="v">60px</span><span class="x">;</span>
+<span class="x">}</span>
+
+<span class="s">.full-width</span> <span class="x">{</span>
+  <span class="p">width</span><span class="x">:</span> <span class="v">100%</span><span class="x">;</span>
+<span class="x">}</span></div>
+          <div class="attr-section-label">Use <code>px</code> for fixed sizes, <code>%</code> for relative sizes.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== PADDING ==================== -->
+    <div class="element-card" id="padding">
+      <div class="card-header">
+        <h2>Padding <code>padding</code></h2>
+        <span class="element-type">Box Model</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:8px;">
+            <div style="background:#dfe6e9; padding:5px; border:2px dashed #636e72; border-radius:4px; font-size:0.85em;">padding: 5px (small)</div>
+            <div style="background:#dfe6e9; padding:20px; border:2px dashed #636e72; border-radius:4px; font-size:0.85em;">padding: 20px (medium)</div>
+            <div style="background:#dfe6e9; padding:40px; border:2px dashed #636e72; border-radius:4px; font-size:0.85em;">padding: 40px (large)</div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="c">/* All four sides */</span>
+<span class="s">.box</span> <span class="x">{</span> <span class="p">padding</span><span class="x">:</span> <span class="v">20px</span><span class="x">;</span> <span class="x">}</span>
+
+<span class="c">/* Top/Bottom  Left/Right */</span>
+<span class="s">.box</span> <span class="x">{</span> <span class="p">padding</span><span class="x">:</span> <span class="v">10px 20px</span><span class="x">;</span> <span class="x">}</span>
+
+<span class="c">/* Individual sides */</span>
+<span class="s">.box</span> <span class="x">{</span>
+  <span class="p">padding-top</span><span class="x">:</span> <span class="v">10px</span><span class="x">;</span>
+  <span class="p">padding-right</span><span class="x">:</span> <span class="v">20px</span><span class="x">;</span>
+  <span class="p">padding-bottom</span><span class="x">:</span> <span class="v">10px</span><span class="x">;</span>
+  <span class="p">padding-left</span><span class="x">:</span> <span class="v">20px</span><span class="x">;</span>
+<span class="x">}</span></div>
+          <div class="attr-section-label">Padding = space INSIDE the box, between the content and the border.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== MARGIN ==================== -->
+    <div class="element-card" id="margin">
+      <div class="card-header">
+        <h2>Margin <code>margin</code></h2>
+        <span class="element-type">Box Model</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="background:#f0f0f0;">
+            <div style="background:white; padding:12px; margin:0px; border:2px solid #3498db; border-radius:4px; margin-bottom:4px; font-size:0.85em;">margin: 0px</div>
+            <div style="background:white; padding:12px; margin:20px; border:2px solid #e74c3c; border-radius:4px; font-size:0.85em;">margin: 20px</div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="c">/* All four sides */</span>
+<span class="s">.box</span> <span class="x">{</span> <span class="p">margin</span><span class="x">:</span> <span class="v">20px</span><span class="x">;</span> <span class="x">}</span>
+
+<span class="c">/* Top/Bottom  Left/Right */</span>
+<span class="s">.box</span> <span class="x">{</span> <span class="p">margin</span><span class="x">:</span> <span class="v">10px 20px</span><span class="x">;</span> <span class="x">}</span>
+
+<span class="c">/* Center a block element */</span>
+<span class="s">.box</span> <span class="x">{</span> <span class="p">margin</span><span class="x">:</span> <span class="v">0 auto</span><span class="x">;</span> <span class="x">}</span></div>
+          <div class="attr-section-label">Margin = space OUTSIDE the box, pushing other elements away. <code>auto</code> centers it.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== BORDER ==================== -->
+    <div class="element-card" id="border">
+      <div class="card-header">
+        <h2>Border <code>border</code></h2>
+        <span class="element-type">Box Model</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:8px;">
+            <div style="border:2px solid #333; padding:10px; border-radius:4px; font-size:0.85em;">2px solid black</div>
+            <div style="border:3px dashed #e74c3c; padding:10px; border-radius:4px; font-size:0.85em;">3px dashed red</div>
+            <div style="border:4px dotted #3498db; padding:10px; border-radius:4px; font-size:0.85em;">4px dotted blue</div>
+            <div style="border-bottom:3px solid #2ecc71; padding:10px; font-size:0.85em;">bottom only</div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="c">/* Shorthand: width style color */</span>
+<span class="s">.box</span> <span class="x">{</span> <span class="p">border</span><span class="x">:</span> <span class="v">2px solid black</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.box</span> <span class="x">{</span> <span class="p">border</span><span class="x">:</span> <span class="v">3px dashed red</span><span class="x">;</span> <span class="x">}</span>
+
+<span class="c">/* One side only */</span>
+<span class="s">.box</span> <span class="x">{</span> <span class="p">border-bottom</span><span class="x">:</span> <span class="v">3px solid green</span><span class="x">;</span> <span class="x">}</span></div>
+          <table class="attr-table">
+            <tr><th>Style</th><th>Look</th></tr>
+            <tr><td><code>solid</code></td><td class="desc">Continuous line</td></tr>
+            <tr><td><code>dashed</code></td><td class="desc">Dashes</td></tr>
+            <tr><td><code>dotted</code></td><td class="desc">Dots</td></tr>
+            <tr><td><code>none</code></td><td class="desc">No border</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== BORDER RADIUS ==================== -->
+    <div class="element-card" id="border-radius">
+      <div class="card-header">
+        <h2>Border Radius <code>border-radius</code></h2>
+        <span class="element-type">Box Model</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:center;">
+            <div style="width:80px;height:80px;background:#3498db;border-radius:0;display:flex;align-items:center;justify-content:center;color:white;font-size:0.75em;">0px</div>
+            <div style="width:80px;height:80px;background:#9b59b6;border-radius:12px;display:flex;align-items:center;justify-content:center;color:white;font-size:0.75em;">12px</div>
+            <div style="width:80px;height:80px;background:#e74c3c;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:0.75em;">50%</div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">.sharp</span>  <span class="x">{</span> <span class="p">border-radius</span><span class="x">:</span> <span class="v">0</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.round</span>  <span class="x">{</span> <span class="p">border-radius</span><span class="x">:</span> <span class="v">12px</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.circle</span> <span class="x">{</span> <span class="p">border-radius</span><span class="x">:</span> <span class="v">50%</span><span class="x">;</span> <span class="x">}</span></div>
+          <div class="attr-section-label">Use <code>50%</code> on a square element to make a perfect circle.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== BOX MODEL DIAGRAM ==================== -->
+    <div class="element-card" id="box-model-diagram">
+      <div class="card-header">
+        <h2>The Box Model</h2>
+        <span class="element-type">Concept</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="display:flex; align-items:center; justify-content:center;">
+            <div style="background:#fdebd0; padding:20px; border:2px dashed #e67e22; border-radius:4px; text-align:center; font-size:0.8em;">
+              <div style="margin-bottom:4px; color:#e67e22; font-weight:600;">margin (outside)</div>
+              <div style="background:#d5f5e3; padding:16px; border:3px solid #27ae60; border-radius:4px;">
+                <div style="margin-bottom:4px; color:#27ae60; font-weight:600;">border</div>
+                <div style="background:#d4e6f1; padding:14px; border-radius:4px;">
+                  <div style="margin-bottom:4px; color:#2980b9; font-weight:600;">padding (inside)</div>
+                  <div style="background:white; padding:10px; border-radius:4px; font-weight:bold; color:#333;">
+                    Content
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">.box</span> <span class="x">{</span>
+  <span class="p">width</span><span class="x">:</span> <span class="v">200px</span><span class="x">;</span>         <span class="c">/* content width */</span>
+  <span class="p">padding</span><span class="x">:</span> <span class="v">20px</span><span class="x">;</span>       <span class="c">/* inside space */</span>
+  <span class="p">border</span><span class="x">:</span> <span class="v">3px solid green</span><span class="x">;</span> <span class="c">/* the edge */</span>
+  <span class="p">margin</span><span class="x">:</span> <span class="v">10px</span><span class="x">;</span>        <span class="c">/* outside space */</span>
+<span class="x">}</span></div>
+          <div class="attr-section-label">Every HTML element is a box: content → padding → border → margin.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== DISPLAY ==================== -->
+    <div class="element-card" id="display">
+      <div class="card-header">
+        <h2>Display <code>display</code></h2>
+        <span class="element-type">Layout</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="font-size:0.85em;">
+            <div style="margin-bottom:8px;">
+              <span style="background:#dfe6e9; padding:4px 8px; border-radius:3px; font-weight:600;">block</span>
+              <div style="background:#74b9ff; color:white; padding:6px; border-radius:3px; margin-top:4px;">Takes full width</div>
+              <div style="background:#0984e3; color:white; padding:6px; border-radius:3px; margin-top:2px;">Next one goes below</div>
+            </div>
+            <div style="margin-bottom:8px;">
+              <span style="background:#dfe6e9; padding:4px 8px; border-radius:3px; font-weight:600;">inline</span>
+              <div style="margin-top:4px;">
+                <span style="background:#55efc4; padding:4px 8px; border-radius:3px;">Side</span>
+                <span style="background:#00b894; color:white; padding:4px 8px; border-radius:3px;">by</span>
+                <span style="background:#00cec9; color:white; padding:4px 8px; border-radius:3px;">side</span>
+              </div>
+            </div>
+            <div>
+              <span style="background:#dfe6e9; padding:4px 8px; border-radius:3px; font-weight:600;">none</span>
+              <div style="margin-top:4px; color:#b2bec3; font-style:italic;">Element is hidden</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">div</span>  <span class="x">{</span> <span class="p">display</span><span class="x">:</span> <span class="v">block</span><span class="x">;</span> <span class="x">}</span>  <span class="c">/* default for div */</span>
+<span class="s">span</span> <span class="x">{</span> <span class="p">display</span><span class="x">:</span> <span class="v">inline</span><span class="x">;</span> <span class="x">}</span> <span class="c">/* default for span */</span>
+
+<span class="s">.hidden</span> <span class="x">{</span> <span class="p">display</span><span class="x">:</span> <span class="v">none</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.flex</span>   <span class="x">{</span> <span class="p">display</span><span class="x">:</span> <span class="v">flex</span><span class="x">;</span> <span class="x">}</span></div>
+          <table class="attr-table">
+            <tr><th>Value</th><th>Behavior</th></tr>
+            <tr><td><code>block</code></td><td class="desc">Full width, stacks vertically</td></tr>
+            <tr><td><code>inline</code></td><td class="desc">Only as wide as content, flows like text</td></tr>
+            <tr><td><code>inline-block</code></td><td class="desc">Inline flow but accepts width/height</td></tr>
+            <tr><td><code>flex</code></td><td class="desc">Activates Flexbox layout</td></tr>
+            <tr><td><code>none</code></td><td class="desc">Completely hidden</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== FLEXBOX ==================== -->
+    <div class="element-card" id="flexbox">
+      <div class="card-header">
+        <h2>Flexbox <code>display: flex</code></h2>
+        <span class="element-type">Layout</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:10px;">
+            <div style="font-size:0.75em; font-weight:600; color:#888;">justify-content: space-between</div>
+            <div style="display:flex; justify-content:space-between; gap:8px;">
+              <div style="background:#3498db; color:white; padding:10px 16px; border-radius:4px;">A</div>
+              <div style="background:#3498db; color:white; padding:10px 16px; border-radius:4px;">B</div>
+              <div style="background:#3498db; color:white; padding:10px 16px; border-radius:4px;">C</div>
+            </div>
+            <div style="font-size:0.75em; font-weight:600; color:#888; margin-top:6px;">align-items: center</div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div style="background:#9b59b6; color:white; padding:20px 16px; border-radius:4px;">Tall</div>
+              <div style="background:#9b59b6; color:white; padding:8px 16px; border-radius:4px;">Short</div>
+              <div style="background:#9b59b6; color:white; padding:14px 16px; border-radius:4px;">Mid</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">.container</span> <span class="x">{</span>
+  <span class="p">display</span><span class="x">:</span> <span class="v">flex</span><span class="x">;</span>
+  <span class="p">justify-content</span><span class="x">:</span> <span class="v">space-between</span><span class="x">;</span>
+  <span class="p">align-items</span><span class="x">:</span> <span class="v">center</span><span class="x">;</span>
+  <span class="p">gap</span><span class="x">:</span> <span class="v">10px</span><span class="x">;</span>
+<span class="x">}</span></div>
+          <table class="attr-table">
+            <tr><th>Property</th><th>What It Does</th></tr>
+            <tr><td><code>justify-content</code></td><td class="desc">Horizontal alignment: <code>center</code>, <code>space-between</code>, <code>flex-start</code></td></tr>
+            <tr><td><code>align-items</code></td><td class="desc">Vertical alignment: <code>center</code>, <code>flex-start</code>, <code>flex-end</code></td></tr>
+            <tr><td><code>flex-direction</code></td><td class="desc"><code>row</code> (default) or <code>column</code></td></tr>
+            <tr><td><code>flex-wrap</code></td><td class="desc"><code>wrap</code> lets items wrap to next line</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== GAP ==================== -->
+    <div class="element-card" id="gap">
+      <div class="card-header">
+        <h2>Gap <code>gap</code></h2>
+        <span class="element-type">Layout</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:10px;">
+            <div style="font-size:0.75em; font-weight:600; color:#888;">gap: 5px</div>
+            <div style="display:flex; gap:5px;">
+              <div style="background:#e74c3c; color:white; padding:8px 14px; border-radius:4px;">1</div>
+              <div style="background:#e74c3c; color:white; padding:8px 14px; border-radius:4px;">2</div>
+              <div style="background:#e74c3c; color:white; padding:8px 14px; border-radius:4px;">3</div>
+            </div>
+            <div style="font-size:0.75em; font-weight:600; color:#888; margin-top:4px;">gap: 24px</div>
+            <div style="display:flex; gap:24px;">
+              <div style="background:#2ecc71; color:white; padding:8px 14px; border-radius:4px;">1</div>
+              <div style="background:#2ecc71; color:white; padding:8px 14px; border-radius:4px;">2</div>
+              <div style="background:#2ecc71; color:white; padding:8px 14px; border-radius:4px;">3</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">.container</span> <span class="x">{</span>
+  <span class="p">display</span><span class="x">:</span> <span class="v">flex</span><span class="x">;</span>
+  <span class="p">gap</span><span class="x">:</span> <span class="v">16px</span><span class="x">;</span>
+<span class="x">}</span></div>
+          <div class="attr-section-label">Space between flex children. Cleaner than adding margin to each child.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== HOVER ==================== -->
+    <div class="element-card" id="hover">
+      <div class="card-header">
+        <h2>Hover Effect <code>:hover</code></h2>
+        <span class="element-type">Interactive</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="display:flex; gap:10px; align-items:center; justify-content:center;">
+            <style>
+              .demo-hover-btn {
+                background: #3498db; color: white; border: none; padding: 10px 24px;
+                border-radius: 6px; font-size: 0.9em; cursor: pointer; transition: background 0.2s;
+              }
+              .demo-hover-btn:hover { background: #2980b9; }
+              .demo-hover-link { color: #3498db; text-decoration: none; font-weight: 500; transition: color 0.2s; }
+              .demo-hover-link:hover { color: #e74c3c; text-decoration: underline; }
+            </style>
+            <button class="demo-hover-btn">Hover me</button>
+            <a href="#hover" class="demo-hover-link">Hover this link</a>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">button</span> <span class="x">{</span>
+  <span class="p">background</span><span class="x">:</span> <span class="v">#3498db</span><span class="x">;</span>
+<span class="x">}</span>
+
+<span class="s">button:hover</span> <span class="x">{</span>
+  <span class="p">background</span><span class="x">:</span> <span class="v">#2980b9</span><span class="x">;</span>
+<span class="x">}</span>
+
+<span class="s">a:hover</span> <span class="x">{</span>
+  <span class="p">color</span><span class="x">:</span> <span class="v">red</span><span class="x">;</span>
+<span class="x">}</span></div>
+          <div class="attr-section-label"><code>:hover</code> is a pseudo-class — styles only apply when the mouse is over the element.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== BOX SHADOW ==================== -->
+    <div class="element-card" id="box-shadow">
+      <div class="card-header">
+        <h2>Box Shadow <code>box-shadow</code></h2>
+        <span class="element-type">Extra</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="display:flex; gap:16px; flex-wrap:wrap; align-items:center; justify-content:center;">
+            <div style="width:100px; height:70px; background:white; border-radius:8px; box-shadow:2px 4px 10px rgba(0,0,0,0.15); display:flex; align-items:center; justify-content:center; font-size:0.75em;">Subtle</div>
+            <div style="width:100px; height:70px; background:white; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.25); display:flex; align-items:center; justify-content:center; font-size:0.75em;">Medium</div>
+            <div style="width:100px; height:70px; background:white; border-radius:8px; box-shadow:0 12px 40px rgba(0,0,0,0.35); display:flex; align-items:center; justify-content:center; font-size:0.75em;">Strong</div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="c">/* x-offset  y-offset  blur  color */</span>
+<span class="s">.card</span> <span class="x">{</span>
+  <span class="p">box-shadow</span><span class="x">:</span> <span class="v">0 4px 12px rgba(0,0,0,0.15)</span><span class="x">;</span>
+<span class="x">}</span></div>
+          <div class="attr-section-label"><code>rgba(0,0,0,0.15)</code> = black at 15% opacity. Lower = more subtle.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== CURSOR ==================== -->
+    <div class="element-card" id="cursor">
+      <div class="card-header">
+        <h2>Cursor <code>cursor</code></h2>
+        <span class="element-type">Extra</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="display:flex; gap:8px; flex-wrap:wrap;">
+            <div style="cursor:pointer; background:#3498db; color:white; padding:8px 14px; border-radius:4px; font-size:0.85em;">pointer</div>
+            <div style="cursor:crosshair; background:#9b59b6; color:white; padding:8px 14px; border-radius:4px; font-size:0.85em;">crosshair</div>
+            <div style="cursor:not-allowed; background:#e74c3c; color:white; padding:8px 14px; border-radius:4px; font-size:0.85em;">not-allowed</div>
+            <div style="cursor:grab; background:#f39c12; color:white; padding:8px 14px; border-radius:4px; font-size:0.85em;">grab</div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">button</span> <span class="x">{</span> <span class="p">cursor</span><span class="x">:</span> <span class="v">pointer</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.disabled</span> <span class="x">{</span> <span class="p">cursor</span><span class="x">:</span> <span class="v">not-allowed</span><span class="x">;</span> <span class="x">}</span></div>
+          <div class="attr-section-label">Use <code>pointer</code> on clickable things so users know they can click.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== CSS UNITS ==================== -->
+    <div class="element-card" id="units">
+      <div class="card-header">
+        <h2>CSS Units <code>px, %, em, rem</code></h2>
+        <span class="element-type">Reference</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:6px;">
+            <div style="width:200px; background:#3498db; color:white; padding:6px 10px; border-radius:3px; font-size:0.8em;">200px (fixed)</div>
+            <div style="width:50%; background:#9b59b6; color:white; padding:6px 10px; border-radius:3px; font-size:0.8em;">50% (of parent)</div>
+            <div style="width:100%; background:#e74c3c; color:white; padding:6px 10px; border-radius:3px; font-size:0.8em;">100% (full parent)</div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">.fixed</span>    <span class="x">{</span> <span class="p">width</span><span class="x">:</span> <span class="v">200px</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.half</span>     <span class="x">{</span> <span class="p">width</span><span class="x">:</span> <span class="v">50%</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.relative</span> <span class="x">{</span> <span class="p">font-size</span><span class="x">:</span> <span class="v">1.5em</span><span class="x">;</span> <span class="x">}</span></div>
+          <table class="attr-table">
+            <tr><th>Unit</th><th>Meaning</th></tr>
+            <tr><td><code>px</code></td><td class="desc">Fixed pixels — always the same size</td></tr>
+            <tr><td><code>%</code></td><td class="desc">Percentage of the parent element</td></tr>
+            <tr><td><code>em</code></td><td class="desc">Relative to the element's font size</td></tr>
+            <tr><td><code>rem</code></td><td class="desc">Relative to the root (&lt;html&gt;) font size</td></tr>
+            <tr><td><code>vh / vw</code></td><td class="desc">Percentage of viewport height / width</td></tr>
+          </table>
+          <div class="attr-section-label">Start with <code>px</code> and <code>%</code>. Learn <code>rem</code> when you're comfortable.</div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+</body>
+</html>

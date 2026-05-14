@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Hover, Shadows &amp; Extras</title>
+    <style>
+
+      /* Demo styles for interactive examples */
+      .hover-btn {
+        background: #3498db;
+        color: white;
+        border: none;
+        padding: 12px 28px;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .hover-btn:hover {
+        background: #2980b9;
+      }
+
+      .hover-card {
+        background: white;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        width: 200px;
+        text-align: center;
+      }
+
+      .hover-card:hover {
+        border-color: #3498db;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      }
+
+      .transition-box {
+        background: #e74c3c;
+        color: white;
+        padding: 14px 24px;
+        border-radius: 6px;
+        display: inline-block;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .transition-box:hover {
+        background: #2ecc71;
+        transform: scale(1.05);
+        border-radius: 20px;
+      }
+
+    </style>
+  </head>
+  <body>
+
+
+    <!-- Page Title -->
+    <div>
+
+      <h1>Hover, Shadows &amp; Extras</h1>
+      <p>This lesson covers <strong>interactive effects</strong> — making elements respond to the mouse with <em>hover states, shadows, transitions, and more</em>.</p>
+
+    </div>
+
+
+    <!-- Hover -->
+    <div>
+
+      <h2>The :hover Pseudo-Class</h2>
+      <p>Add <mark>:hover</mark> after any selector to apply styles <strong>only when the mouse is over it</strong>.</p>
+
+      <div style="margin-top: 10px;">
+        <button class="hover-btn">Hover over me</button>
+      </div>
+
+      <pre>
+button {
+  background: #3498db;
+  color: white;
+}
+
+button:hover {
+  background: #2980b9;
+}
+      </pre>
+
+      <p><em>You can change any property on hover — color, background, size, border, anything.</em></p>
+
+    </div>
+
+
+    <!-- Hover on Cards -->
+    <div>
+
+      <h2>Hover on Cards</h2>
+      <p>Hover effects work great on <strong>cards and containers</strong> too — not just buttons.</p>
+
+      <div style="display: flex; gap: 16px; margin-top: 10px;">
+        <div class="hover-card">
+          <p style="font-size: 28px; margin: 0;">🎨</p>
+          <p style="font-weight: bold; margin: 6px 0 0;">Design</p>
+        </div>
+        <div class="hover-card">
+          <p style="font-size: 28px; margin: 0;">💻</p>
+          <p style="font-weight: bold; margin: 6px 0 0;">Code</p>
+        </div>
+        <div class="hover-card">
+          <p style="font-size: 28px; margin: 0;">🚀</p>
+          <p style="font-weight: bold; margin: 6px 0 0;">Launch</p>
+        </div>
+      </div>
+
+      <pre>
+.card {
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.card:hover {
+  border-color: #3498db;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+      </pre>
+
+    </div>
+
+
+    <!-- Box Shadow -->
+    <div>
+
+      <h2>Box Shadow</h2>
+      <p>Use <mark>box-shadow</mark> to add a <strong>drop shadow</strong> behind any element.</p>
+      <p>The format is: <mark>box-shadow: x-offset y-offset blur color;</mark></p>
+
+      <div style="display: flex; gap: 20px; margin-top: 10px;">
+        <div style="width: 120px; height: 80px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 2px 4px 8px rgba(0,0,0,0.1);">Subtle</div>
+        <div style="width: 120px; height: 80px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(0,0,0,0.2);">Medium</div>
+        <div style="width: 120px; height: 80px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 40px rgba(0,0,0,0.3);">Strong</div>
+      </div>
+
+      <pre>
+.subtle { box-shadow: 2px 4px 8px rgba(0,0,0,0.1); }
+.medium { box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+.strong { box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+      </pre>
+
+      <p><em>Tip: <mark>rgba(0,0,0,0.15)</mark> means black at 15% opacity. Lower number = lighter shadow.</em></p>
+
+    </div>
+
+
+    <!-- Transition -->
+    <div>
+
+      <h2>Transitions (Smooth Changes)</h2>
+      <p>Without <mark>transition</mark>, hover changes are instant. Adding it makes things <strong>animate smoothly</strong>.</p>
+
+      <div style="margin-top: 10px;">
+        <div class="transition-box">Hover me — I'm smooth!</div>
+      </div>
+
+      <pre>
+.box {
+  background: #e74c3c;
+  transition: all 0.3s;
+}
+
+.box:hover {
+  background: #2ecc71;
+  transform: scale(1.05);
+  border-radius: 20px;
+}
+      </pre>
+
+      <p><em><mark>transition: all 0.3s;</mark> means "animate all property changes over 0.3 seconds."</em></p>
+
+    </div>
+
+
+    <!-- Cursor -->
+    <div>
+
+      <h2>Cursor</h2>
+      <p>Use <mark>cursor</mark> to change what the <strong>mouse pointer</strong> looks like when hovering.</p>
+
+      <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+        <div style="cursor: pointer; background: #3498db; color: white; padding: 10px 18px; border-radius: 6px;">pointer (hand)</div>
+        <div style="cursor: crosshair; background: #9b59b6; color: white; padding: 10px 18px; border-radius: 6px;">crosshair</div>
+        <div style="cursor: not-allowed; background: #e74c3c; color: white; padding: 10px 18px; border-radius: 6px;">not-allowed</div>
+        <div style="cursor: grab; background: #f39c12; color: white; padding: 10px 18px; border-radius: 6px;">grab</div>
+        <div style="cursor: text; background: #1abc9c; color: white; padding: 10px 18px; border-radius: 6px;">text</div>
+      </div>
+
+      <pre>
+button { cursor: pointer; }
+.disabled { cursor: not-allowed; }
+      </pre>
+
+      <p><em>Always use <mark>cursor: pointer;</mark> on clickable things so users know they can click.</em></p>
+
+    </div>
+
+
+    <!-- Opacity -->
+    <div>
+
+      <h2>Opacity</h2>
+      <p>Use <mark>opacity</mark> to make an element <strong>see-through</strong>.</p>
+
+      <div style="display: flex; gap: 10px; margin-top: 10px;">
+        <div style="background: #e74c3c; color: white; padding: 14px 20px; border-radius: 6px; opacity: 1;">opacity: 1</div>
+        <div style="background: #e74c3c; color: white; padding: 14px 20px; border-radius: 6px; opacity: 0.6;">opacity: 0.6</div>
+        <div style="background: #e74c3c; color: white; padding: 14px 20px; border-radius: 6px; opacity: 0.3;">opacity: 0.3</div>
+      </div>
+
+      <pre>
+.faded {
+  opacity: 0.5;
+}
+
+/* Nice hover pattern: */
+img {
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+img:hover {
+  opacity: 1;
+}
+      </pre>
+
+      <p><em>Range: <mark>0</mark> (invisible) to <mark>1</mark> (fully visible).</em></p>
+
+    </div>
+
+
+    <!-- Putting It All Together -->
+    <div>
+
+      <h2>Putting It All Together</h2>
+      <p>Here's a <strong>button</strong> using everything from this lesson — hover, shadow, transition, and cursor.</p>
+
+      <style>
+        .mega-btn {
+          background: #6c5ce7;
+          color: white;
+          border: none;
+          padding: 16px 40px;
+          font-size: 18px;
+          font-weight: bold;
+          border-radius: 8px;
+          cursor: pointer;
+          box-shadow: 0 4px 14px rgba(108, 92, 231, 0.4);
+          transition: all 0.3s;
+        }
+        .mega-btn:hover {
+          background: #5b4cdb;
+          box-shadow: 0 8px 24px rgba(108, 92, 231, 0.6);
+          transform: translateY(-2px);
+        }
+      </style>
+
+      <div style="text-align: center; padding: 30px;">
+        <button class="mega-btn">Sign Up Free</button>
+      </div>
+
+      <pre>
+.mega-btn {
+  background: #6c5ce7;
+  color: white;
+  border: none;
+  padding: 16px 40px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(108, 92, 231, 0.4);
+  transition: all 0.3s;
+}
+
+.mega-btn:hover {
+  background: #5b4cdb;
+  box-shadow: 0 8px 24px rgba(108, 92, 231, 0.6);
+  transform: translateY(-2px);
+}
+      </pre>
+
+    </div>
+
+
+    <!-- Quick Reference -->
+    <div>
+
+      <h2>Quick Reference</h2>
+      <p>Here are the <strong>CSS properties</strong> you learned today:</p>
+
+      <ul>
+        <li><strong>:hover</strong> — styles that apply when the mouse is over an element</li>
+        <li><strong>box-shadow</strong> — adds a drop shadow (x, y, blur, color)</li>
+        <li><strong>transition</strong> — smoothly animates changes (use <mark>all 0.3s</mark>)</li>
+        <li><strong>cursor</strong> — changes the mouse pointer (pointer, not-allowed, grab)</li>
+        <li><strong>opacity</strong> — make elements see-through (0 to 1)</li>
+        <li><strong>transform: scale()</strong> — makes elements bigger/smaller</li>
+        <li><strong>transform: translateY()</strong> — moves elements up/down</li>
+      </ul>
+
+    </div>
+
+
+  </body>
+</html>

@@ -17,7 +17,8 @@ If you've read a README.MD (like this one), you are reading essentially a simple
 Basis of all HTML:
 - All html content sits within a special filer type that ends in ".html"
 - Very basic html is "static" (it does not change): good fit for resume website since content rarely changes
-- HTML used tags within bracket like <h1></h1> to distinguish different types of elements
+- HTML uses tags within bracket like <h1></h1> to distinguish different types of elements
+- On it's own HTML has very little styling although some elements like <strong></strong> can
 
 
 Cheatsheets for HTML / CSS: [W3Schools](https://www.w3schools.com/html/default.asp)

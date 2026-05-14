@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>CSS Basics — Text & Color</title>
+    <style>
+    </style>
+  </head>
+  <body>
+
+
+    <!-- Page Title -->
+    <div>
+
+      <h1>CSS Basics — Text &amp; Color</h1>
+      <p>This lesson covers how to <strong>add CSS</strong> to your HTML and change <em>colors, fonts, and text styling</em>.</p>
+
+    </div>
+
+
+    <!-- Where CSS Goes -->
+    <div>
+
+      <h2>Where Does CSS Go?</h2>
+      <p>CSS lives inside a <mark>&lt;style&gt;</mark> tag in the <mark>&lt;head&gt;</mark> section of your HTML file.</p>
+      <p>Think of it this way: HTML is the <strong>skeleton</strong>, and CSS is the <strong>outfit</strong>.</p>
+
+      <pre>
+&lt;head&gt;
+  &lt;style&gt;
+    h1 {
+      color: blue;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+      </pre>
+
+    </div>
+
+
+    <!-- Anatomy of a CSS Rule -->
+    <div>
+
+      <h2>Anatomy of a CSS Rule</h2>
+      <p>Every CSS rule has <strong>three parts</strong>:</p>
+      <ol>
+        <li><strong>Selector</strong> — which element to style (like <mark>h1</mark> or <mark>p</mark>)</li>
+        <li><strong>Property</strong> — what to change (like <mark>color</mark> or <mark>font-size</mark>)</li>
+        <li><strong>Value</strong> — what to change it to (like <mark>red</mark> or <mark>24px</mark>)</li>
+      </ol>
+
+      <pre>
+selector {
+  property: value;
+}
+      </pre>
+
+    </div>
+
+
+    <!-- Text Color -->
+    <div>
+
+      <h2>Text Color</h2>
+      <p>The <mark>color</mark> property changes the <strong>text color</strong>.</p>
+
+      <p style="color: tomato;">This text is tomato colored.</p>
+      <p style="color: #3498db;">This text uses a hex color: #3498db.</p>
+      <p style="color: rgb(46, 204, 113);">This text uses rgb(46, 204, 113).</p>
+
+      <pre>
+p {
+  color: tomato;
+}
+      </pre>
+
+    </div>
+
+
+    <!-- Background Color -->
+    <div>
+
+      <h2>Background Color</h2>
+      <p>The <mark>background-color</mark> property fills the <strong>background</strong> of an element.</p>
+
+      <div style="background-color: #3498db; color: white; padding: 16px;">
+        This div has a blue background.
+      </div>
+
+      <br>
+
+      <div style="background-color: #f1c40f; padding: 16px;">
+        This div has a yellow background.
+      </div>
+
+      <pre>
+div {
+  background-color: #3498db;
+  color: white;
+}
+      </pre>
+
+    </div>
+
+
+    <!-- Font Size -->
+    <div>
+
+      <h2>Font Size</h2>
+      <p>Use <mark>font-size</mark> to make text <strong>bigger or smaller</strong>.</p>
+
+      <p style="font-size: 12px;">This is 12px — small text.</p>
+      <p style="font-size: 16px;">This is 16px — the default browser size.</p>
+      <p style="font-size: 24px;">This is 24px — bigger text.</p>
+      <p style="font-size: 36px;">This is 36px — heading size.</p>
+
+      <pre>
+p {
+  font-size: 24px;
+}
+      </pre>
+
+    </div>
+
+
+    <!-- Font Family -->
+    <div>
+
+      <h2>Font Family</h2>
+      <p>Use <mark>font-family</mark> to change the <strong>typeface</strong>.</p>
+
+      <p style="font-family: Arial, sans-serif;">This is Arial (sans-serif).</p>
+      <p style="font-family: Georgia, serif;">This is Georgia (serif).</p>
+      <p style="font-family: 'Courier New', monospace;">This is Courier New (monospace).</p>
+
+      <pre>
+body {
+  font-family: Arial, sans-serif;
+}
+      </pre>
+
+      <p><em>Tip: always end with a generic family like <mark>sans-serif</mark> as a fallback.</em></p>
+
+    </div>
+
+
+    <!-- Font Weight -->
+    <div>
+
+      <h2>Font Weight</h2>
+      <p>Use <mark>font-weight</mark> to make text <strong>bold</strong> or <em>light</em>.</p>
+
+      <p style="font-weight: 300;">This is light (300).</p>
+      <p style="font-weight: 400;">This is normal (400).</p>
+      <p style="font-weight: 700;">This is bold (700).</p>
+
+      <pre>
+h1 {
+  font-weight: bold;
+}
+
+p {
+  font-weight: normal;
+}
+      </pre>
+
+    </div>
+
+
+    <!-- Text Align -->
+    <div>
+
+      <h2>Text Align</h2>
+      <p>Use <mark>text-align</mark> to move text <strong>left, center, or right</strong>.</p>
+
+      <p style="text-align: left; background: #eee; padding: 8px;">Left aligned (default)</p>
+      <p style="text-align: center; background: #eee; padding: 8px;">Center aligned</p>
+      <p style="text-align: right; background: #eee; padding: 8px;">Right aligned</p>
+
+      <pre>
+h1 {
+  text-align: center;
+}
+      </pre>
+
+    </div>
+
+
+    <!-- Text Decoration -->
+    <div>
+
+      <h2>Text Decoration</h2>
+      <p>Use <mark>text-decoration</mark> to add or remove <strong>underlines</strong>.</p>
+
+      <p style="text-decoration: underline;">This text is underlined.</p>
+      <p style="text-decoration: line-through;">This text has a strikethrough.</p>
+      <p><a href="#" style="text-decoration: none;">This link has no underline.</a></p>
+
+      <pre>
+a {
+  text-decoration: none;
+}
+      </pre>
+
+    </div>
+
+
+    <!-- Putting It All Together -->
+    <div>
+
+      <h2>Putting It All Together</h2>
+      <p>Here's a styled section using <strong>everything</strong> from this lesson.</p>
+
+      <div style="background-color: #2c3e50; color: white; padding: 24px; font-family: Georgia, serif; text-align: center;">
+        <h2 style="font-size: 28px; font-weight: 700; color: #f1c40f;">The Daily Scoop</h2>
+        <p style="font-size: 14px; color: #bdc3c7; text-decoration: underline;">Your favorite ice cream blog</p>
+      </div>
+
+      <pre>
+&lt;style&gt;
+  .header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 24px;
+    font-family: Georgia, serif;
+    text-align: center;
+  }
+
+  .header h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #f1c40f;
+  }
+
+  .header p {
+    font-size: 14px;
+    color: #bdc3c7;
+    text-decoration: underline;
+  }
+&lt;/style&gt;
+      </pre>
+
+    </div>
+
+
+    <!-- Quick Reference -->
+    <div>
+
+      <h2>Quick Reference</h2>
+      <p>Here are the <strong>CSS properties</strong> you learned today:</p>
+
+      <ul>
+        <li><strong>color</strong> — text color</li>
+        <li><strong>background-color</strong> — background fill</li>
+        <li><strong>font-size</strong> — text size (use <mark>px</mark>)</li>
+        <li><strong>font-family</strong> — typeface (Arial, Georgia, etc.)</li>
+        <li><strong>font-weight</strong> — bold or normal</li>
+        <li><strong>text-align</strong> — left, center, right</li>
+        <li><strong>text-decoration</strong> — underline, strikethrough, or none</li>
+      </ul>
+
+      <p>And these <strong>concepts</strong>:</p>
+
+      <ul>
+        <li><strong>&lt;style&gt;</strong> — where CSS goes (in the &lt;head&gt;)</li>
+        <li><strong>Selectors</strong> — pick elements by tag name (h1, p, div)</li>
+        <li><strong>property: value;</strong> — how every CSS rule is written</li>
+      </ul>
+
+    </div>
+
+
+  </body>
+</html>

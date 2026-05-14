@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>The Box Model</title>
+    <style>
+    </style>
+  </head>
+  <body>
+
+
+    <!-- Page Title -->
+    <div>
+
+      <h1>The Box Model</h1>
+      <p>This lesson covers how every HTML element is a <strong>box</strong> — and how to control its <em>size, spacing, and borders</em>.</p>
+
+    </div>
+
+
+    <!-- The Big Idea -->
+    <div>
+
+      <h2>The Big Idea</h2>
+      <p>Every single element in HTML is an invisible <strong>rectangle</strong>. CSS lets you control four layers of that rectangle:</p>
+      <ol>
+        <li><strong>Content</strong> — the text or image inside</li>
+        <li><strong>Padding</strong> — space between the content and the border</li>
+        <li><strong>Border</strong> — the visible edge of the box</li>
+        <li><strong>Margin</strong> — space outside the border, pushing other elements away</li>
+      </ol>
+
+    </div>
+
+
+    <!-- Box Model Diagram -->
+    <div>
+
+      <h2>Box Model Diagram</h2>
+      <p>Here's what the box model looks like, from <strong>outside to inside</strong>:</p>
+
+      <div style="background: #fdebd0; padding: 24px; border: 2px dashed #e67e22; text-align: center; max-width: 400px;">
+        <p style="margin: 0 0 6px 0; color: #e67e22; font-weight: bold;">⬆ Margin (outside space)</p>
+        <div style="background: #d5f5e3; padding: 20px; border: 3px solid #27ae60;">
+          <p style="margin: 0 0 6px 0; color: #27ae60; font-weight: bold;">⬆ Border (the edge)</p>
+          <div style="background: #d4e6f1; padding: 18px;">
+            <p style="margin: 0 0 6px 0; color: #2980b9; font-weight: bold;">⬆ Padding (inside space)</p>
+            <div style="background: white; padding: 12px; font-weight: bold;">
+              Content
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- Width & Height -->
+    <div>
+
+      <h2>Width &amp; Height</h2>
+      <p>Use <mark>width</mark> and <mark>height</mark> to set the <strong>size of the content area</strong>.</p>
+
+      <div style="width: 200px; height: 80px; background: #3498db; color: white; padding: 10px;">
+        200px wide, 80px tall
+      </div>
+
+      <br>
+
+      <div style="width: 100%; height: 50px; background: #9b59b6; color: white; padding: 10px;">
+        100% width (fills the parent)
+      </div>
+
+      <pre>
+.box {
+  width: 200px;
+  height: 80px;
+}
+
+.full {
+  width: 100%;
+}
+      </pre>
+
+    </div>
+
+
+    <!-- Padding -->
+    <div>
+
+      <h2>Padding</h2>
+      <p>Padding adds space <strong>inside</strong> the box — between the content and the border.</p>
+
+      <div style="background: #dfe6e9; padding: 5px; border: 2px dashed #636e72; margin-bottom: 10px;">
+        padding: 5px (small)
+      </div>
+
+      <div style="background: #dfe6e9; padding: 20px; border: 2px dashed #636e72; margin-bottom: 10px;">
+        padding: 20px (medium)
+      </div>
+
+      <div style="background: #dfe6e9; padding: 40px; border: 2px dashed #636e72;">
+        padding: 40px (lots of breathing room)
+      </div>
+
+      <pre>
+/* All four sides */
+.box { padding: 20px; }
+
+/* Top/Bottom and Left/Right */
+.box { padding: 10px 20px; }
+
+/* Each side individually */
+.box {
+  padding-top: 10px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+}
+      </pre>
+
+    </div>
+
+
+    <!-- Margin -->
+    <div>
+
+      <h2>Margin</h2>
+      <p>Margin adds space <strong>outside</strong> the box — pushing other elements away.</p>
+
+      <div style="background: #f0f0f0; padding: 10px;">
+
+        <div style="background: white; padding: 10px; border: 2px solid #3498db; margin: 0;">
+          margin: 0 (no outside space)
+        </div>
+
+        <div style="background: white; padding: 10px; border: 2px solid #e74c3c; margin: 30px;">
+          margin: 30px (pushed away from everything)
+        </div>
+
+      </div>
+
+      <pre>
+/* All four sides */
+.box { margin: 20px; }
+
+/* Top/Bottom and Left/Right */
+.box { margin: 10px 20px; }
+
+/* Center a block element horizontally */
+.box {
+  width: 300px;
+  margin: 0 auto;
+}
+      </pre>
+
+      <p><em>Tip: <mark>margin: 0 auto;</mark> is the classic trick to <strong>center</strong> a block element.</em></p>
+
+    </div>
+
+
+    <!-- Border -->
+    <div>
+
+      <h2>Border</h2>
+      <p>The <mark>border</mark> property draws a visible edge around the box. It has three parts: <strong>width</strong>, <strong>style</strong>, and <strong>color</strong>.</p>
+
+      <div style="border: 2px solid #333; padding: 12px; margin-bottom: 10px;">
+        2px solid black
+      </div>
+
+      <div style="border: 3px dashed #e74c3c; padding: 12px; margin-bottom: 10px;">
+        3px dashed red
+      </div>
+
+      <div style="border: 4px dotted #3498db; padding: 12px; margin-bottom: 10px;">
+        4px dotted blue
+      </div>
+
+      <div style="border-bottom: 3px solid #2ecc71; padding: 12px;">
+        border-bottom only
+      </div>
+
+      <pre>
+/* Shorthand: width style color */
+.box { border: 2px solid black; }
+
+/* One side only */
+.box { border-bottom: 3px solid green; }
+      </pre>
+
+    </div>
+
+
+    <!-- Border Radius -->
+    <div>
+
+      <h2>Border Radius</h2>
+      <p>Use <mark>border-radius</mark> to <strong>round the corners</strong> of any box.</p>
+
+      <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+        <div style="width: 80px; height: 80px; background: #3498db; border-radius: 0; display: flex; align-items: center; justify-content: center; color: white;">0px</div>
+        <div style="width: 80px; height: 80px; background: #9b59b6; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white;">12px</div>
+        <div style="width: 80px; height: 80px; background: #e74c3c; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">50%</div>
+      </div>
+
+      <pre>
+.sharp  { border-radius: 0; }
+.round  { border-radius: 12px; }
+.circle { border-radius: 50%; }
+      </pre>
+
+      <p><em>Tip: Use <mark>50%</mark> on a square element to make a <strong>perfect circle</strong>.</em></p>
+
+    </div>
+
+
+    <!-- Putting It All Together -->
+    <div>
+
+      <h2>Putting It All Together</h2>
+      <p>Here's a card built using <strong>every box model property</strong> from this lesson.</p>
+
+      <div style="width: 300px; padding: 24px; margin: 20px auto; border: 2px solid #ddd; border-radius: 12px; background: white; text-align: center;">
+        <div style="width: 60px; height: 60px; background: #3498db; border-radius: 50%; margin: 0 auto 12px;"></div>
+        <h3 style="margin: 0 0 4px;">Alex Johnson</h3>
+        <p style="color: #888; margin: 0;">Web Developer</p>
+      </div>
+
+      <pre>
+.card {
+  width: 300px;
+  padding: 24px;
+  margin: 20px auto;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  background: white;
+  text-align: center;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  background: #3498db;
+  border-radius: 50%;
+  margin: 0 auto 12px;
+}
+      </pre>
+
+    </div>
+
+
+    <!-- Quick Reference -->
+    <div>
+
+      <h2>Quick Reference</h2>
+      <p>Here are the <strong>CSS properties</strong> you learned today:</p>
+
+      <ul>
+        <li><strong>width / height</strong> — size of the content area</li>
+        <li><strong>padding</strong> — space inside the box</li>
+        <li><strong>margin</strong> — space outside the box</li>
+        <li><strong>border</strong> — visible edge (width + style + color)</li>
+        <li><strong>border-radius</strong> — rounds the corners</li>
+      </ul>
+
+      <p>And these <strong>shortcuts</strong>:</p>
+
+      <ul>
+        <li><strong>padding: 10px 20px;</strong> — top/bottom, left/right</li>
+        <li><strong>margin: 0 auto;</strong> — center a block element</li>
+        <li><strong>border-radius: 50%;</strong> — makes a circle</li>
+        <li><strong>border-bottom:</strong> — style just one side</li>
+      </ul>
+
+    </div>
+
+
+  </body>
+</html>
