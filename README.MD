@@ -23,6 +23,8 @@
     - Convert Project to Tailwind
 5. Javascript
 6. Typescript
+7. NodeJS / Express
+8. React
 
 ---
 

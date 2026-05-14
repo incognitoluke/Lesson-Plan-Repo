@@ -2,8 +2,6 @@
 
 ### Setup:
 1. Google / Edge WebDev Tools
-2. 
-
 
 ---
 
