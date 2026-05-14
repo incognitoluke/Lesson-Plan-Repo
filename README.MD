@@ -37,8 +37,12 @@ Basic Webdev Templates:
 
 YouTube Channels: 
 - [Fireship.io - HTML](https://www.youtube.com/watch?v=ok-plXXHlWw)
-- [FreeCodeCamp - CSS](https://youtu.be/OXGznpKZ_sA)
+- [FreeCodeCamp - HTML](https://youtu.be/kUMe1FH4CHE)
+
 - [Fireship.io - CSS](https://youtu.be/OEV8gMkCHXQ)
-- [FreeCodeCamp - CSS Grid](https://youtu.be/i1FeOOhNnwU)
-- [Fireship.io - CSS Tips](https://youtu.be/Qhaz36TZG5Y)
+- [FreeCodeCamp - CSS](https://youtu.be/OXGznpKZ_sA)
+
+
+- [CSS Grid](https://youtu.be/i1FeOOhNnwU)
+- [CSS Tips](https://youtu.be/Qhaz36TZG5Y)
 
