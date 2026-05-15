@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Classes and IDs Example</title>
+  <style>
+    /* Global styles */
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    /* Class selector: can be used on many elements */
+    .box {
+      padding: 1rem;
+      margin: 0.5rem 0;
+      border: 2px solid #333;
+      background: #f9f9f9;
+    }
+
+    /* ID selector: should be unique on the page */
+    #highlight {
+      color: white;
+      background-color: #1e90ff;
+      border-color: #1e90ff;
+    }
+
+    /* Additional classes for reuse */
+    .red-text {
+      color: #c0392b;
+    }
+
+    .blue-border {
+      border-color: #3498db;
+    }
+
+    /* Element plus class selector */
+    p.note {
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <h1>Classes and IDs in HTML/CSS</h1>
+
+  <p class="box">This paragraph uses a class named <code>box</code>.</p>
+
+  <div class="box red-text">This div uses two classes: <code>box</code> and <code>red-text</code>.</div>
+
+  <div id="highlight" class="box">This div uses an <code>id</code> named <code>highlight</code> and the class <code>box</code>.</div>
+
+  <p id="special">This paragraph uses an <code>id</code> only.</p>
+
+  <p class="note">This paragraph uses a class named <code>note</code>, which styles it as italic.</p>
+</body>
+</html>

@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>CSS Basics — Media Queries &amp; Breakpoints</title>
+    <style>
+    </style>
+  </head>
+  <body>
+
+
+    <!-- Page Title -->
+    <div>
+
+      <h1>CSS Basics — Media Queries &amp; Breakpoints</h1>
+      <p>This lesson covers how to make your website <strong>look good on every screen size</strong> — from an iPhone to a 4K TV. You'll learn <em>media queries, breakpoints, and the viewport meta tag</em>.</p>
+
+    </div>
+
+
+    <!-- Why Responsive Design Matters -->
+    <div>
+
+      <h2>Why Does This Matter?</h2>
+      <p>People visit websites on <strong>all kinds of screens</strong>:</p>
+
+      <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; padding: 20px; background: #f9f9f9; border: 1px solid #ddd; margin-bottom: 12px;">
+        <div style="width: 40px; height: 70px; border: 2px solid #333; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.55em; text-align: center; color: #555; background: white;">Phone</div>
+        <div style="width: 70px; height: 90px; border: 2px solid #333; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.6em; text-align: center; color: #555; background: white;">Tablet</div>
+        <div style="width: 130px; height: 85px; border: 2px solid #333; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.65em; text-align: center; color: #555; background: white; position: relative;"><span>Laptop</span><div style="position: absolute; bottom: -8px; left: 20%; right: 20%; height: 6px; background: #333; border-radius: 0 0 3px 3px;"></div></div>
+        <div style="width: 180px; height: 105px; border: 3px solid #333; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.7em; text-align: center; color: #555; background: white;">Desktop / TV</div>
+      </div>
+
+      <p>If your site only looks good on a laptop, you're ignoring <strong>over half your visitors</strong>. Media queries let you write CSS rules that only apply at certain screen sizes.</p>
+
+    </div>
+
+
+    <!-- The Viewport Meta Tag -->
+    <div>
+
+      <h2>Step 1: The Viewport Meta Tag</h2>
+      <p>Before media queries work properly, you need this line in your <mark>&lt;head&gt;</mark>:</p>
+
+      <pre>
+&lt;meta name="viewport"
+  content="width=device-width, initial-scale=1.0"&gt;
+      </pre>
+
+      <p><strong>What it does:</strong> tells the phone to use its actual screen width instead of pretending to be a desktop. Without this, your phone zooms out to fit a 1200px layout into a 390px screen — making everything tiny.</p>
+
+      <p><em>This tag goes in every HTML file you create. Always. No exceptions.</em></p>
+
+    </div>
+
+
+    <!-- What Is a Media Query -->
+    <div>
+
+      <h2>Step 2: Your First Media Query</h2>
+      <p>A media query is CSS wrapped in an <mark>@media</mark> rule. The CSS inside <strong>only applies when the condition is true</strong>.</p>
+
+      <pre>
+/* This applies to ALL screens */
+h1 {
+  font-size: 36px;
+}
+
+/* This ONLY applies when the screen is 768px or narrower */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 24px;
+  }
+}
+      </pre>
+
+      <p>Read it like English: <em>"When the screen is at most 768px wide, make h1 smaller."</em></p>
+
+      <p>Here's a live example — resize your browser window to see the change:</p>
+
+      <style>
+        .demo-responsive-heading {
+          font-size: 32px;
+          font-weight: bold;
+          color: #2c3e50;
+          background: #f0f0f0;
+          padding: 16px;
+          text-align: center;
+          transition: font-size 0.3s;
+        }
+        @media (max-width: 768px) {
+          .demo-responsive-heading {
+            font-size: 20px;
+            background: #d5f5e3;
+          }
+        }
+      </style>
+
+      <div class="demo-responsive-heading">
+        Resize your browser — I change size!
+      </div>
+
+      <p><em>↑ On a wide screen this is large with a gray background. On a narrow screen (≤768px) it shrinks and turns green.</em></p>
+
+    </div>
+
+
+    <!-- max-width vs min-width -->
+    <div>
+
+      <h2>Step 3: max-width vs min-width</h2>
+      <p>There are two ways to write media queries. They do <strong>opposite things</strong>:</p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;">
+        <div style="background: #eaf2f8; padding: 16px; border-radius: 6px; border-left: 4px solid #3498db;">
+          <strong style="color: #2c3e50;">max-width</strong>
+          <p style="font-size: 0.9em; color: #555; margin: 6px 0 0;">"When the screen is <strong>this size or smaller</strong>"</p>
+          <p style="font-size: 0.85em; color: #777; margin: 4px 0 0;"><em>Desktop-first approach: start big, then override for small screens.</em></p>
+        </div>
+        <div style="background: #fef9e7; padding: 16px; border-radius: 6px; border-left: 4px solid #f1c40f;">
+          <strong style="color: #2c3e50;">min-width</strong>
+          <p style="font-size: 0.9em; color: #555; margin: 6px 0 0;">"When the screen is <strong>this size or larger</strong>"</p>
+          <p style="font-size: 0.85em; color: #777; margin: 4px 0 0;"><em>Mobile-first approach: start small, then add styles for big screens.</em></p>
+        </div>
+      </div>
+
+      <pre>
+/* Desktop-first: start with desktop styles,
+   then override for smaller screens */
+.sidebar {
+  width: 250px;       /* desktop: sidebar is 250px */
+}
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;      /* tablet and below: full width */
+  }
+}
+
+
+/* Mobile-first: start with mobile styles,
+   then add styles for larger screens */
+.sidebar {
+  width: 100%;        /* mobile: full width */
+}
+@media (min-width: 769px) {
+  .sidebar {
+    width: 250px;     /* tablet and above: sidebar is 250px */
+  }
+}
+      </pre>
+
+      <p>Both approaches work. Most modern frameworks use <strong>mobile-first</strong> (min-width), but <strong>desktop-first</strong> (max-width) is easier to learn. Pick one and be consistent.</p>
+
+    </div>
+
+
+    <!-- What Is a Breakpoint -->
+    <div>
+
+      <h2>Step 4: What's a Breakpoint?</h2>
+      <p>A <strong>breakpoint</strong> is the screen width where your layout changes. It's the number inside <mark>max-width</mark> or <mark>min-width</mark>.</p>
+
+      <pre>
+@media (max-width: 768px) { ... }
+                    ↑
+              this is the breakpoint
+      </pre>
+
+      <p>You choose breakpoints based on <strong>where your design starts to look bad</strong> — not based on specific devices. But it helps to know what sizes real devices are.</p>
+
+    </div>
+
+
+    <!-- Common Breakpoints -->
+    <div>
+
+      <h2>Step 5: Common Breakpoints</h2>
+      <p>Here are the <strong>standard breakpoints</strong> most developers use. You don't need all of them — pick 2 or 3 that make sense for your design.</p>
+
+      <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 0.92em; margin: 12px 0;">
+        <tr style="background: #2c3e50; color: white;">
+          <th style="text-align: left;">Category</th>
+          <th style="text-align: left;">Breakpoint</th>
+          <th style="text-align: left;">Targets</th>
+        </tr>
+        <tr>
+          <td><strong>Small phones</strong></td>
+          <td>480px</td>
+          <td>iPhone SE, older Android phones</td>
+        </tr>
+        <tr style="background: #f9f9f9;">
+          <td><strong>Phones</strong></td>
+          <td>768px</td>
+          <td>All phones in portrait mode</td>
+        </tr>
+        <tr>
+          <td><strong>Tablets</strong></td>
+          <td>1024px</td>
+          <td>iPad, Android tablets, phones in landscape</td>
+        </tr>
+        <tr style="background: #f9f9f9;">
+          <td><strong>Laptops</strong></td>
+          <td>1280px</td>
+          <td>Small laptops, standard desktops</td>
+        </tr>
+        <tr>
+          <td><strong>Desktops</strong></td>
+          <td>1440px</td>
+          <td>Large desktop monitors</td>
+        </tr>
+        <tr style="background: #f9f9f9;">
+          <td><strong>Large screens</strong></td>
+          <td>1920px</td>
+          <td>Full HD monitors, TVs</td>
+        </tr>
+      </table>
+
+      <pre>
+/* A simple 3-breakpoint system covers most cases */
+
+/* Phones (up to 768px) */
+@media (max-width: 768px) { ... }
+
+/* Tablets (up to 1024px) */
+@media (max-width: 1024px) { ... }
+
+/* Big screens (1440px and up) */
+@media (min-width: 1440px) { ... }
+      </pre>
+
+      <p><em>Tip: you almost never need more than 3 breakpoints. Start with just <mark>768px</mark> — that covers the phone-to-desktop jump, which is the most important one.</em></p>
+
+    </div>
+
+
+    <!-- Real Device Sizes: Phones -->
+    <div>
+
+      <h2>Real Device Sizes: Phones</h2>
+      <p>Here are the <strong>CSS pixel widths</strong> of popular phones. This is the number that matters for media queries — not the physical resolution.</p>
+
+      <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 0.92em; margin: 12px 0;">
+        <tr style="background: #2c3e50; color: white;">
+          <th style="text-align: left;">Device</th>
+          <th style="text-align: center;">Portrait Width</th>
+          <th style="text-align: center;">Landscape Width</th>
+        </tr>
+        <tr>
+          <td><strong>iPhone SE</strong> (3rd gen)</td>
+          <td style="text-align: center;">375px</td>
+          <td style="text-align: center;">667px</td>
+        </tr>
+        <tr style="background: #f9f9f9;">
+          <td><strong>iPhone 14</strong></td>
+          <td style="text-align: center;">390px</td>
+          <td style="text-align: center;">844px</td>
+        </tr>
+        <tr>
+          <td><strong>iPhone 14 Pro</strong></td>
+          <td style="text-align: center;">393px</td>
+          <td style="text-align: center;">852px</td>
+        </tr>
+        <tr style="background: #f9f9f9;">
+          <td><strong>iPhone 15 / 16</strong></td>
+          <td style="text-align: center;">393px</td>
+          <td style="text-align: center;">852px</td>
+        </tr>
+        <tr>
+          <td><strong>iPhone 15 Pro Max / 16 Pro Max</strong></td>
+          <td style="text-align: center;">430px</td>
+          <td style="text-align: center;">932px</td>
+        </tr>
+        <tr style="background: #f9f9f9;">
+          <td><strong>Samsung Galaxy S24</strong></td>
+          <td style="text-align: center;">360px</td>
+          <td style="text-align: center;">780px</td>
+        </tr>
+        <tr>
+          <td><strong>Samsung Galaxy S24 Ultra</strong></td>
+          <td style="text-align: center;">384px</td>
+          <td style="text-align: center;">824px</td>
+        </tr>
+        <tr style="background: #f9f9f9;">
+          <td><strong>Google Pixel 8</strong></td>
+          <td style="text-align: center;">412px</td>
+          <td style="text-align: center;">915px</td>
+        </tr>
+        <tr>
+          <td><strong>Google Pixel 8 Pro</strong></td>
+          <td style="text-align: center;">448px</td>
+          <td style="text-align: center;">998px</td>
+        </tr>
+      </table>
+
+      <p><strong>Key takeaway:</strong> Most phones are between <mark>360px–430px</mark> wide in portrait. That's why <mark>max-width: 768px</mark> catches all of them.</p>
+
+    </div>
+
+
+    <!-- Real Device Sizes: Tablets -->
+    <div>
+
+      <h2>Real Device Sizes: Tablets</h2>
+
+      <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 0.92em; margin: 12px 0;">
+        <tr style="background: #2c3e50; color: white;">
+          <th style="text-align: left;">Device</th>
+          <th style="text-align: center;">Portrait Width</th>
+          <th style="text-align: center;">Landscape Width</th>
+        </tr>
+        <tr>
+          <td><strong>iPad Mini</strong> (6th gen)</td>
+          <td style="text-align: center;">744px</td>
+          <td style="text-align: center;">1133px</td>
+        </tr>
+        <tr style="background: #f9f9f9;">
+          <td><strong>iPad</strong> (10th gen)</td>
+          <td style="text-align: center;">820px</td>
+          <td style="text-align: center;">1180px</td>
+        </tr>
+        <tr>
+          <td><strong>iPad Air</strong> (M2)</td>
+          <td style="text-align: center;">820px</td>
+          <td style="text-align: center;">1180px</td>
+        </tr>
+        <tr style="background: #f9f9f9;">
+          <td><strong>iPad Pro 11"</strong></td>
+          <td style="text-align: center;">834px</td>
+          <td style="text-align: center;">1194px</td>
+        </tr>
+        <tr>
+          <td><strong>iPad Pro 13"</strong></td>
+          <td style="text-align: center;">1024px</td>
+          <td style="text-align: center;">1366px</td>
+        </tr>
+        <tr style="background: #f9f9f9;">
+          <td><strong>Samsung Galaxy Tab S9</strong></td>
+          <td style="text-align: center;">800px</td>
+          <td style="text-align: center;">1280px</td>
+        </tr>
+        <tr>
+          <td><strong>Samsung Galaxy Tab S9 Ultra</strong></td>
+          <td style="text-align: center;">998px</td>
+          <td style="text-align: center;">1438px</td>
+        </tr>
+      </table>
+
+      <p><strong>Key takeaway:</strong> Tablets range from <mark>744px–1024px</mark> in portrait. The iPad in landscape (1180px) overlaps with small laptops — this is normal.</p>
+
+    </div>
+
+
+    <!-- Real Device Sizes: Laptops & Desktops -->
+    <div>
+
+      <h2>Real Device Sizes: Laptops &amp; Desktops</h2>
+
+      <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse; font-size: 0.92em; margin: 12px 0;">
+        <tr style="background: #2c3e50; color: white;">
+          <th style="text-align: left;">Device</th>
+          <th style="text-align: center;">Screen Width</th>
+          <th style="text-align: center;">Common Resolution</th>
+        </tr>
+        <tr>
+          <td><strong>MacBook Air 13"</strong></td>
+          <td style="text-align: center;">1280px</td>
+          <td style="text-align: center;">2560 × 1664 (Retina)</td>
+        </tr>
+        <tr style="background: #f9f9f9;">
+          <td><strong>MacBook Pro 14"</strong></td>
+          <td style="text-align: center;">1512px</td>
+          <td style="text-align: center;">3024 × 1964 (Retina)</td>
+        </tr>
+        <tr>
+          <td><strong>MacBook Pro 16"</strong></td>
+          <td style="text-align: center;">1728px</td>
+          <td style="text-align: center;">3456 × 2234 (Retina)</td>
+        </tr>
+        <tr style="background: #f9f9f9;">
+          <td><strong>Windows Laptop 14"</strong> (1080p)</td>
+          <td style="text-align: center;">1366px–1536px</td>
+          <td style="text-align: center;">1920 × 1080</td>
+        </tr>
+        <tr>
+          <td><strong>Windows Laptop 15.6"</strong> (1080p)</td>
+          <td style="text-align: center;">1536px</td>
+          <td style="text-align: center;">1920 × 1080 at 125% scale</td>
+        </tr>
+        <tr style="background: #f9f9f9;">
+          <td><strong>Desktop Monitor</strong> (1080p Full HD)</td>
+          <td style="text-align: center;">1920px</td>
+          <td style="text-align: center;">1920 × 1080</td>
+        </tr>
+        <tr>
+          <td><strong>Desktop Monitor</strong> (1440p QHD)</td>
+          <td style="text-align: center;">2560px</td>
+          <td style="text-align: center;">2560 × 1440</td>
+        </tr>
+        <tr style="background: #f9f9f9;">
+          <td><strong>Ultrawide Monitor</strong></td>
+          <td style="text-align: center;">3440px</td>
+          <td style="text-align: center;">3440 × 1440</td>
+        </tr>
+        <tr>
+          <td><strong>4K TV / Monitor</strong></td>
+          <td style="text-align: center;">3840px</td>
+          <td style="text-align: center;">3840 × 2160</td>
+        </tr>
+      </table>
+
+      <p><strong>Important note about scaling:</strong> A MacBook Pro 14" has a 3024px physical screen, but the <em>CSS pixel width</em> is 1512px because of Retina scaling (2x). A Windows laptop at 125% scaling turns 1920px into 1536px CSS pixels. Media queries use <strong>CSS pixels</strong>, not physical pixels.</p>
+
+    </div>
+
+
+    <!-- CSS Pixels vs Physical Pixels -->
+    <div>
+
+      <h2>Wait — CSS Pixels vs Physical Pixels?</h2>
+      <p>This confuses everyone at first. Here's the simple version:</p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;">
+        <div style="background: #eaf2f8; padding: 16px; border-radius: 6px; border-left: 4px solid #3498db;">
+          <strong style="color: #2c3e50;">Physical pixels</strong>
+          <p style="font-size: 0.9em; color: #555; margin: 6px 0 0;">The actual tiny dots on the screen. An iPhone 15 has 2556 × 1179 of them.</p>
+        </div>
+        <div style="background: #fef9e7; padding: 16px; border-radius: 6px; border-left: 4px solid #f1c40f;">
+          <strong style="color: #2c3e50;">CSS pixels</strong>
+          <p style="font-size: 0.9em; color: #555; margin: 6px 0 0;">What CSS sees. An iPhone 15 reports 393 × 852 CSS pixels. This is what media queries use.</p>
+        </div>
+      </div>
+
+      <p>Modern screens pack multiple physical pixels into each CSS pixel. This makes things look sharp (Retina / HiDPI), but it means the numbers in your <mark>@media</mark> rules are smaller than you'd expect.</p>
+
+      <p><strong>You only need to think about CSS pixels.</strong> The device handles the rest.</p>
+
+    </div>
+
+
+    <!-- Practical Example 1: Responsive Grid -->
+    <div>
+
+      <h2>Practical Example: Responsive Card Grid</h2>
+      <p>Let's build a <strong>card grid that adapts</strong> from 1 column on phones to 3 columns on desktop.</p>
+
+      <style>
+        .demo-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+          padding: 16px;
+          background: #f5f5f5;
+          border: 1px solid #ddd;
+        }
+        .demo-grid .card {
+          background: white;
+          padding: 20px 16px;
+          border-radius: 8px;
+          text-align: center;
+          font-weight: 600;
+          font-size: 0.9em;
+          color: #333;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        @media (max-width: 1024px) {
+          .demo-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+        @media (max-width: 600px) {
+          .demo-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      </style>
+
+      <div class="demo-grid">
+        <div class="card">Card 1</div>
+        <div class="card">Card 2</div>
+        <div class="card">Card 3</div>
+        <div class="card">Card 4</div>
+        <div class="card">Card 5</div>
+        <div class="card">Card 6</div>
+      </div>
+
+      <p><em>↑ Resize your browser to see: 3 columns → 2 columns → 1 column.</em></p>
+
+      <pre>
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* Tablet: 2 columns */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Phone: 1 column */
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+      </pre>
+
+    </div>
+
+
+    <!-- Practical Example 2: Responsive Text -->
+    <div>
+
+      <h2>Practical Example: Responsive Text Sizing</h2>
+      <p>Text that looks great on desktop is often <strong>too big on a phone</strong>. Scale it down at breakpoints.</p>
+
+      <style>
+        .demo-text-responsive h2 {
+          font-size: 36px;
+          color: #2c3e50;
+          margin: 0 0 8px;
+        }
+        .demo-text-responsive p {
+          font-size: 18px;
+          color: #555;
+          margin: 0;
+          max-width: 600px;
+        }
+        @media (max-width: 768px) {
+          .demo-text-responsive h2 {
+            font-size: 24px;
+          }
+          .demo-text-responsive p {
+            font-size: 15px;
+          }
+        }
+      </style>
+
+      <div class="demo-text-responsive" style="padding: 20px; background: #f9f9f9; border: 1px solid #ddd;">
+        <h2>Welcome to our site</h2>
+        <p>This heading and paragraph change size when the screen gets narrower. Try resizing your browser.</p>
+      </div>
+
+      <pre>
+h1 {
+  font-size: 48px;
+}
+p {
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 28px;
+  }
+  p {
+    font-size: 15px;
+  }
+}
+      </pre>
+
+      <p><em>Tip: you can also use <mark>clamp()</mark> for fluid sizing without breakpoints: <mark>font-size: clamp(24px, 5vw, 48px)</mark>. But breakpoints give you more control.</em></p>
+
+    </div>
+
+
+    <!-- Practical Example 3: Hide & Show -->
+    <div>
+
+      <h2>Practical Example: Hiding &amp; Showing Elements</h2>
+      <p>Some things should <strong>only appear on certain screen sizes</strong>. Use <mark>display: none</mark> inside a media query.</p>
+
+      <style>
+        .demo-visibility .desktop-only {
+          display: block;
+          background: #d5f5e3;
+          padding: 12px 16px;
+          border-radius: 6px;
+          color: #27ae60;
+          font-weight: 600;
+          font-size: 0.9em;
+          margin-bottom: 8px;
+        }
+        .demo-visibility .mobile-only {
+          display: none;
+          background: #fadbd8;
+          padding: 12px 16px;
+          border-radius: 6px;
+          color: #e74c3c;
+          font-weight: 600;
+          font-size: 0.9em;
+          margin-bottom: 8px;
+        }
+        @media (max-width: 768px) {
+          .demo-visibility .desktop-only { display: none; }
+          .demo-visibility .mobile-only { display: block; }
+        }
+      </style>
+
+      <div class="demo-visibility" style="padding: 16px; background: #f9f9f9; border: 1px solid #ddd;">
+        <div class="desktop-only">✓ I only appear on desktop (above 768px)</div>
+        <div class="mobile-only">✓ I only appear on mobile (768px and below)</div>
+        <p style="font-size: 0.85em; color: #888; margin: 4px 0 0;"><em>↑ Resize your browser to see which one shows.</em></p>
+      </div>
+
+      <pre>
+.desktop-only {
+  display: block;
+}
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-only { display: none; }
+  .mobile-only  { display: block; }
+}
+      </pre>
+
+      <p>Common uses: hide a sidebar on mobile, show a hamburger menu only on phones, or display a "download the app" banner only on mobile.</p>
+
+    </div>
+
+
+    <!-- Practical Example 4: Responsive Padding & Spacing -->
+    <div>
+
+      <h2>Practical Example: Responsive Spacing</h2>
+      <p>Spacing that works on a big screen feels <strong>too spread out on a phone</strong>. Tighten it up with media queries.</p>
+
+      <pre>
+.section {
+  padding: 80px 60px;     /* lots of room on desktop */
+}
+
+@media (max-width: 1024px) {
+  .section {
+    padding: 48px 32px;   /* less on tablet */
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 32px 16px;   /* tight on phone */
+  }
+}
+      </pre>
+
+      <p>A good rule of thumb: <strong>cut your padding roughly in half</strong> at each breakpoint.</p>
+
+    </div>
+
+
+    <!-- Practical Example 5: Stacking Columns -->
+    <div>
+
+      <h2>Practical Example: Two Columns → One Column</h2>
+      <p>The most common layout shift: <strong>side-by-side on desktop, stacked on mobile</strong>.</p>
+
+      <style>
+        .demo-stack {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 20px;
+          align-items: center;
+          padding: 20px;
+          background: #f9f9f9;
+          border: 1px solid #ddd;
+        }
+        .demo-stack .text h3 { font-size: 1.2em; color: #2c3e50; margin: 0 0 6px; }
+        .demo-stack .text p { font-size: 0.9em; color: #666; margin: 0; line-height: 1.6; }
+        .demo-stack .image {
+          background: linear-gradient(135deg, #3498db, #9b59b6);
+          border-radius: 8px;
+          height: 120px;
+        }
+        @media (max-width: 600px) {
+          .demo-stack {
+            grid-template-columns: 1fr;
+          }
+        }
+      </style>
+
+      <div class="demo-stack">
+        <div class="text">
+          <h3>About Our Company</h3>
+          <p>We build tools that help creators ship faster. On desktop, this text sits beside the image. On mobile, they stack vertically.</p>
+        </div>
+        <div class="image"></div>
+      </div>
+
+      <p><em>↑ Resize below 600px to see them stack.</em></p>
+
+      <pre>
+.two-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+@media (max-width: 768px) {
+  .two-column {
+    grid-template-columns: 1fr;
+  }
+}
+      </pre>
+
+    </div>
+
+
+    <!-- Order of Media Queries Matters -->
+    <div>
+
+      <h2>Order Matters!</h2>
+      <p>When using <mark>max-width</mark>, always put <strong>larger breakpoints first</strong>.</p>
+
+      <pre>
+/* ✅ Correct order (largest to smallest) */
+@media (max-width: 1024px) { ... }   /* tablets */
+@media (max-width: 768px)  { ... }   /* phones */
+@media (max-width: 480px)  { ... }   /* small phones */
+
+
+/* ❌ Wrong order */
+@media (max-width: 480px)  { ... }
+@media (max-width: 768px)  { ... }   /* this overrides the one above! */
+      </pre>
+
+      <p>CSS reads top-to-bottom. If two rules both apply, the <strong>last one wins</strong>. So with max-width, go from largest to smallest. With min-width, go from smallest to largest.</p>
+
+    </div>
+
+
+    <!-- The Easy Cheat: auto-fit -->
+    <div>
+
+      <h2>Bonus: Skip Breakpoints Entirely</h2>
+      <p>For card grids, there's a CSS Grid trick that <strong>makes them responsive without any media queries</strong>:</p>
+
+      <style>
+        .demo-autofit {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+          gap: 12px;
+          padding: 16px;
+          background: #f5f5f5;
+          border: 1px solid #ddd;
+        }
+        .demo-autofit .card {
+          background: white;
+          padding: 20px 16px;
+          border-radius: 8px;
+          text-align: center;
+          font-weight: 600;
+          font-size: 0.9em;
+          color: #333;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+      </style>
+
+      <div class="demo-autofit">
+        <div class="card">Card A</div>
+        <div class="card">Card B</div>
+        <div class="card">Card C</div>
+        <div class="card">Card D</div>
+        <div class="card">Card E</div>
+      </div>
+
+      
+
+      <p><em>↑ Resize your browser — the cards rearrange automatically. No media queries used.</em></p>
+
+      <pre>
+.grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+}
+      </pre>
+
+      <p>This single line says: <em>"make as many columns as will fit, each at least 250px wide."</em> The browser handles the rest. This is the most useful CSS Grid trick you'll learn.</p>
+
+    </div>
+        <!-- Practical Example 6: max-width Makes Layouts Responsive -->
+    <div>
+
+      <h2>Practical Example: max-width Makes Layouts Responsive Automatically</h2>
+
+      <p>One of the easiest ways to make layouts responsive is by combining:</p>
+
+      <ul>
+        <li><strong>Flexible layouts</strong> (Flexbox or Grid)</li>
+        <li><strong>width: 100%</strong></li>
+        <li><strong>max-width</strong></li>
+      </ul>
+
+      <p>This prevents elements from getting <strong>too wide on large screens</strong> while still allowing them to <strong>shrink naturally on small screens</strong>.</p>
+
+      <p>Think of <mark>max-width</mark> as a safety limit:</p>
+
+      <pre>
+width: 100%;
+max-width: 400px;
+      </pre>
+
+      <p>This means:</p>
+
+      <ul>
+        <li><strong>Grow up to 400px</strong></li>
+        <li><strong>But shrink smaller if needed</strong></li>
+      </ul>
+
+      <p>Without <mark>max-width</mark>, layouts often stretch too much on large monitors and look awkward.</p>
+
+      <!-- Flex Example -->
+      <h3>Example 1: Flexbox Cards</h3>
+
+      <style>
+        .demo-flex-maxwidth {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 16px;
+          padding: 16px;
+          background: #f5f5f5;
+          border: 1px solid #ddd;
+        }
+
+        .demo-flex-maxwidth .card {
+          flex: 1 1 250px;
+          max-width: 320px;
+          background: white;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+      </style>
+
+      <div class="demo-flex-maxwidth">
+        <div class="card">Flex Card 1</div>
+        <div class="card">Flex Card 2</div>
+        <div class="card">Flex Card 3</div>
+      </div>
+
+      <p><em>↑ Resize your browser. The cards wrap automatically and never grow too wide.</em></p>
+
+      <pre>
+        .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+        }
+
+        .card {
+        flex: 1 1 250px;
+        max-width: 320px;
+        }
+      </pre>
+
+      <p><strong>What's happening?</strong></p>
+
+      <ul>
+        <li><mark>flex-wrap: wrap</mark> allows cards to move onto new rows</li>
+        <li><mark>flex: 1 1 250px</mark> says:
+          <ul>
+            <li>grow if space exists</li>
+            <li>shrink if needed</li>
+            <li>prefer being around 250px wide</li>
+          </ul>
+        </li>
+        <li><mark>max-width: 320px</mark> prevents giant stretched cards on large monitors</li>
+      </ul>
+
+      <p>This creates responsive behavior with very little code.</p>
+
+      <!-- Grid Example -->
+      <h3>Example 2: Grid + max-width Container</h3>
+
+      <style>
+        .demo-grid-wrapper {
+          max-width: 900px;
+          margin: 0 auto;
+          padding: 16px;
+          background: #f9f9f9;
+          border: 1px solid #ddd;
+        }
+
+        .demo-grid-maxwidth {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 16px;
+        }
+
+        .demo-grid-maxwidth .card {
+          background: white;
+          padding: 20px;
+          border-radius: 8px;
+          text-align: center;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+      </style>
+
+      <div class="demo-grid-wrapper">
+        <div class="demo-grid-maxwidth">
+          <div class="card">Grid Card A</div>
+          <div class="card">Grid Card B</div>
+          <div class="card">Grid Card C</div>
+          <div class="card">Grid Card D</div>
+        </div>
+      </div>
+
+      <p><em>↑ The grid automatically changes columns while the whole layout stays centered and readable.</em></p>
+
+      <pre>
+.wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+      </pre>
+
+      <p><strong>Why this works so well:</strong></p>
+
+      <ul>
+        <li><mark>max-width: 900px</mark> stops content from becoming too stretched</li>
+        <li><mark>margin: 0 auto</mark> centers the layout</li>
+        <li><mark>auto-fit + minmax()</mark> automatically adjusts the number of columns</li>
+        <li>The layout becomes responsive <strong>without many media queries</strong></li>
+      </ul>
+
+      <p>This is how many modern websites stay readable on:</p>
+
+      <ul>
+        <li>Phones</li>
+        <li>Tablets</li>
+        <li>Laptops</li>
+        <li>Ultrawide monitors</li>
+        <li>4K displays</li>
+      </ul>
+
+      <p><strong>Modern responsive CSS is often less about tons of breakpoints and more about:</strong></p>
+
+      <ul>
+        <li>Flexible layouts</li>
+        <li>Wrapping content</li>
+        <li>Using sensible max-width values</li>
+      </ul>
+
+    </div>
+
+
+    <!-- Complete Starter Template -->
+    <div>
+
+      <h2>Starter Template</h2>
+      <p>Copy this as a <strong>starting point</strong> for any responsive page. It includes the viewport tag, a 3-breakpoint system, and the most common responsive patterns.</p>
+
+      <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport"
+    content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;My Responsive Page&lt;/title&gt;
+  &lt;style&gt;
+
+    /* ===== Base styles (all screens) ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    h1 { font-size: 48px; }
+    p  { font-size: 18px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    /* ===== Tablet (1024px and below) ===== */
+    @media (max-width: 1024px) {
+      .container { padding: 0 24px; }
+      h1 { font-size: 36px; }
+      .grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ===== Phone (768px and below) ===== */
+    @media (max-width: 768px) {
+      .container { padding: 0 16px; }
+      h1 { font-size: 28px; }
+      p  { font-size: 16px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;div class="container"&gt;
+    &lt;h1&gt;Hello World&lt;/h1&gt;
+    &lt;p&gt;This page is responsive.&lt;/p&gt;
+
+    &lt;div class="grid"&gt;
+      &lt;div&gt;Card 1&lt;/div&gt;
+      &lt;div&gt;Card 2&lt;/div&gt;
+      &lt;div&gt;Card 3&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+      </pre>
+
+    </div>
+
+
+    <!-- Quick Reference -->
+    <div>
+
+      <h2>Quick Reference</h2>
+      <p>Here's everything you learned in this lesson:</p>
+
+      <ul>
+        <li><strong>&lt;meta name="viewport"&gt;</strong> — required for responsive to work on phones</li>
+        <li><strong>@media (max-width: ___)</strong> — styles apply at that width <em>and below</em></li>
+        <li><strong>@media (min-width: ___)</strong> — styles apply at that width <em>and above</em></li>
+        <li><strong>Breakpoint</strong> — the pixel value where your layout changes</li>
+        <li><strong>CSS pixels ≠ physical pixels</strong> — media queries use CSS pixels</li>
+        <li><strong>Order matters</strong> — with max-width, go largest → smallest</li>
+      </ul>
+
+      <p>The <strong>breakpoints</strong> to remember:</p>
+
+      <ul>
+        <li><strong>768px</strong> — the phone/tablet cutoff (most important)</li>
+        <li><strong>1024px</strong> — the tablet/laptop cutoff</li>
+        <li><strong>1440px</strong> — for large desktop optimizations</li>
+      </ul>
+
+      <p>The <strong>device ranges</strong> to remember:</p>
+
+      <ul>
+        <li><strong>Phones:</strong> 360–430px (portrait)</li>
+        <li><strong>Tablets:</strong> 744–1024px (portrait)</li>
+        <li><strong>Laptops:</strong> 1280–1728px</li>
+        <li><strong>Desktops:</strong> 1920–2560px</li>
+        <li><strong>4K / TVs:</strong> 3840px</li>
+      </ul>
+
+      <p>And the <strong>patterns</strong> you'll use most:</p>
+
+      <ul>
+        <li>3 columns → 2 columns → 1 column (card grids)</li>
+        <li>Side-by-side → stacked (text + image sections)</li>
+        <li>Shrink font sizes at each breakpoint</li>
+        <li>Reduce padding/spacing on smaller screens</li>
+        <li>Hide/show elements (sidebar, hamburger, banners)</li>
+        <li><mark>auto-fit + minmax()</mark> — responsive grid with zero breakpoints</li>
+      </ul>
+
+    </div>
+
+
+  </body>
+</html>

@@ -36,6 +36,7 @@ Cheatsheets for HTML / CSS / Javascript:
 Basic Webdev Templates: 
 - [Awwwards](https://www.awwwards.com/websites/html5/)
 - [HTML5Up](https://html5up.net/) 
+- [Google Fonts](https://fonts.google.com/selection?preview.script=Latn)
 
 YouTube Channels: 
 - [Fireship.io - HTML](https://www.youtube.com/watch?v=ok-plXXHlWw)

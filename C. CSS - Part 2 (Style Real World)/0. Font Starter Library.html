@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Typography Library</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@400;500;600;700&family=Fraunces:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;600;700&family=Sora:wght@300;400;600;700&family=Space+Grotesk:wght@400;600;700&family=Unbounded:wght@400;600;700;900&family=Instrument+Serif:ital@0;1&family=Newsreader:ital,wght@0,400;0,600;1,400;1,600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0b0d10;
+      --surface: #13161c;
+      --surface-raised: #191d25;
+      --border: #252b38;
+      --border-light: #323a4a;
+      --text: #e2e8f0;
+      --text-muted: #7a8599;
+      --accent: #f0a86e;
+      --accent-dim: #c47a3a;
+      --accent-bg: rgba(240, 168, 110, 0.07);
+      --code-bg: #0d1117;
+      --prop-color: #79c0ff;
+      --value-color: #a5d6ff;
+      --selector-color: #ff7b72;
+      --comment-color: #6a7585;
+      --punct-color: #8b949e;
+      --string-color: #a5d6ff;
+      --sidebar-w: 264px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ========== SIDEBAR NAV ========== */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      z-index: 100;
+      padding-bottom: 40px;
+    }
+
+    .sidebar-logo {
+      padding: 28px 22px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-logo h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.15em;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+
+    .sidebar-logo span {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7em;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-top: 2px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .sidebar-section-title {
+      font-size: 0.65em;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      padding: 20px 22px 8px;
+      font-weight: 600;
+    }
+
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 22px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.84em;
+      font-weight: 500;
+      transition: all 0.15s;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar a:hover {
+      color: var(--text);
+      background: var(--accent-bg);
+      border-left-color: var(--accent);
+    }
+
+    .sidebar a .prop-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8em;
+      color: var(--prop-color);
+      opacity: 0.7;
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 0 48px 80px;
+      max-width: 1100px;
+    }
+
+    .hero {
+      padding: 60px 0 40px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 48px;
+    }
+
+    .hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 2.6em;
+      font-weight: 900;
+      color: var(--text);
+      letter-spacing: -0.03em;
+    }
+
+    .hero h1 em {
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      margin-top: 10px;
+      font-size: 1.05em;
+      max-width: 600px;
+    }
+
+    /* ========== ELEMENT CARD ========== */
+    .element-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 36px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .element-card:hover {
+      border-color: var(--border-light);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-raised);
+    }
+
+    .card-header h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.25em;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .card-header h2 code {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--prop-color);
+      font-size: 0.85em;
+      background: rgba(121,192,255,0.1);
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 8px;
+    }
+
+    .element-type {
+      font-size: 0.7em;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      background: var(--accent-bg);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .card-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .card-preview {
+      padding: 28px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card-preview-label,
+    .card-code-label {
+      font-size: 0.65em;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .preview-area {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 20px;
+      color: #1a1a1a;
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.6;
+      min-height: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .preview-area h1 { font-size: 1.8em; color: #111; margin: 0; }
+    .preview-area h2 { font-size: 1.4em; color: #222; margin: 0; }
+    .preview-area h3 { font-size: 1.15em; color: #333; margin: 0; }
+    .preview-area p { margin: 4px 0; }
+
+    .card-code {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow: hidden;
+    }
+
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82em;
+      line-height: 1.7;
+      white-space: pre;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .code-block .s { color: var(--selector-color); }
+    .code-block .p { color: var(--prop-color); }
+    .code-block .v { color: var(--value-color); }
+    .code-block .c { color: var(--comment-color); }
+    .code-block .x { color: var(--punct-color); }
+    .code-block .t { color: var(--selector-color); }
+    .code-block .a { color: var(--prop-color); }
+    .code-block .str { color: var(--string-color); }
+
+    /* ========== VALUES TABLE ========== */
+    .attr-table {
+      width: 100%;
+      font-size: 0.82em;
+      margin-top: 4px;
+    }
+
+    .attr-table th {
+      text-align: left;
+      color: var(--accent);
+      font-weight: 600;
+      padding: 6px 10px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9em;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .attr-table td {
+      padding: 5px 10px;
+      border-bottom: 1px solid rgba(42,49,64,0.5);
+      vertical-align: top;
+    }
+
+    .attr-table code {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--prop-color);
+      font-size: 0.95em;
+      background: rgba(121,192,255,0.08);
+      padding: 1px 6px;
+      border-radius: 3px;
+    }
+
+    .attr-table .desc {
+      color: var(--text-muted);
+    }
+
+    .attr-section-label {
+      font-size: 0.7em;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-top: 14px;
+      margin-bottom: 4px;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 0 20px 60px; }
+      .card-body { grid-template-columns: 1fr; }
+      .card-preview { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== SIDEBAR ========== -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <h1>Aa Typography Library</h1>
+      <span>CSS Type Reference</span>
+    </div>
+
+    <div class="sidebar-section-title">Google Fonts Setup</div>
+    <a href="#google-fonts-setup"><span class="prop-badge">&lt;link&gt;</span> Loading Fonts</a>
+    <a href="#font-family"><span class="prop-badge">font-family</span> Using Fonts</a>
+
+    <div class="sidebar-section-title">Font Styles</div>
+    <a href="#font-style"><span class="prop-badge">font-style</span> Italic</a>
+    <a href="#font-weight"><span class="prop-badge">font-weight</span> Weight</a>
+    <a href="#font-pairing"><span class="prop-badge">pairing</span> Font Pairing</a>
+
+    <div class="sidebar-section-title">Spacing &amp; Kerning</div>
+    <a href="#letter-spacing"><span class="prop-badge">letter-spacing</span> Tracking</a>
+    <a href="#word-spacing"><span class="prop-badge">word-spacing</span> Word Spacing</a>
+    <a href="#font-kerning"><span class="prop-badge">font-kerning</span> Kerning</a>
+
+    <div class="sidebar-section-title">Text Transform</div>
+    <a href="#text-transform"><span class="prop-badge">text-transform</span> Case</a>
+    <a href="#font-variant"><span class="prop-badge">font-variant</span> Small Caps</a>
+
+    <div class="sidebar-section-title">Fine Control</div>
+    <a href="#font-size-clamp"><span class="prop-badge">clamp()</span> Fluid Type</a>
+    <a href="#line-height"><span class="prop-badge">line-height</span> Leading</a>
+    <a href="#text-indent"><span class="prop-badge">text-indent</span> Indent</a>
+    <a href="#white-space"><span class="prop-badge">white-space</span> Wrapping</a>
+    <a href="#text-rendering"><span class="prop-badge">rendering</span> Rendering</a>
+  </nav>
+
+  <!-- ========== MAIN ========== -->
+  <div class="main">
+    <div class="hero">
+      <h1>CSS <em>Typography</em> Library</h1>
+      <p>Fonts, spacing, casing, and fine typographic control — every property you need to make text look intentional.</p>
+    </div>
+
+
+    <!-- ==================== GOOGLE FONTS SETUP ==================== -->
+    <div class="element-card" id="google-fonts-setup">
+      <div class="card-header">
+        <h2>Loading Google Fonts <code>&lt;link&gt;</code></h2>
+        <span class="element-type">Setup</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <p style="font-family:'Playfair Display',serif; font-size:1.5em; font-weight:700; color:#111;">Playfair Display</p>
+            <p style="font-family:'Outfit',sans-serif; font-size:1.1em; color:#555; margin-top:4px;">Loaded from Google Fonts in one &lt;link&gt; tag.</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="c">/* 1. Go to fonts.google.com
+   2. Pick fonts &amp; weights
+   3. Copy the &lt;link&gt; into &lt;head&gt; */</span>
+
+<span class="x">&lt;</span><span class="t">link</span> <span class="a">href</span><span class="x">=</span><span class="str">"https://fonts.googleapis.com
+  /css2?family=Playfair+Display
+  :wght@400;700&amp;display=swap"</span>
+  <span class="a">rel</span><span class="x">=</span><span class="str">"stylesheet"</span><span class="x">&gt;</span></div>
+          <div class="attr-section-label">The <code>&lt;link&gt;</code> tag goes inside <code>&lt;head&gt;</code>, before your <code>&lt;style&gt;</code> block.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== FONT FAMILY ==================== -->
+    <div class="element-card" id="font-family">
+      <div class="card-header">
+        <h2>Using Fonts <code>font-family</code></h2>
+        <span class="element-type">Setup</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:6px;">
+            <p style="font-family:'Cormorant Garamond',serif; font-size:1.4em;">Cormorant Garamond</p>
+            <p style="font-family:'Outfit',sans-serif; font-size:1.2em;">Outfit Sans-Serif</p>
+            <p style="font-family:'JetBrains Mono',monospace; font-size:1em; color:#555;">JetBrains Mono</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">h1</span> <span class="x">{</span>
+  <span class="p">font-family</span><span class="x">:</span> <span class="v">'Cormorant Garamond', serif</span><span class="x">;</span>
+<span class="x">}</span>
+
+<span class="s">body</span> <span class="x">{</span>
+  <span class="p">font-family</span><span class="x">:</span> <span class="v">'Outfit', sans-serif</span><span class="x">;</span>
+<span class="x">}</span>
+
+<span class="s">code</span> <span class="x">{</span>
+  <span class="p">font-family</span><span class="x">:</span> <span class="v">'JetBrains Mono', monospace</span><span class="x">;</span>
+<span class="x">}</span></div>
+          <div class="attr-section-label">Wrap multi-word names in quotes. Always end with a generic fallback (<code>serif</code>, <code>sans-serif</code>, <code>monospace</code>).</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== FONT STYLE (ITALIC) ==================== -->
+    <div class="element-card" id="font-style">
+      <div class="card-header">
+        <h2>Italic <code>font-style</code></h2>
+        <span class="element-type">Style</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:8px;">
+            <p style="font-family:'Libre Baskerville',serif; font-size:1.25em;">Normal — upright letterforms</p>
+            <p style="font-family:'Libre Baskerville',serif; font-size:1.25em; font-style:italic;">Italic — true italic shapes</p>
+            <p style="font-family:'Outfit',sans-serif; font-size:1.1em; font-style:oblique; color:#666;">Oblique — slanted, not redrawn</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">.normal</span>  <span class="x">{</span> <span class="p">font-style</span><span class="x">:</span> <span class="v">normal</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.italic</span>  <span class="x">{</span> <span class="p">font-style</span><span class="x">:</span> <span class="v">italic</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.oblique</span> <span class="x">{</span> <span class="p">font-style</span><span class="x">:</span> <span class="v">oblique</span><span class="x">;</span> <span class="x">}</span></div>
+          <table class="attr-table">
+            <tr><th>Value</th><th>Meaning</th></tr>
+            <tr><td><code>normal</code></td><td class="desc">Default upright text</td></tr>
+            <tr><td><code>italic</code></td><td class="desc">Uses the font's designed italic glyphs</td></tr>
+            <tr><td><code>oblique</code></td><td class="desc">Mechanically slants the normal glyphs</td></tr>
+          </table>
+          <div class="attr-section-label">Load the italic weight in your Google Fonts <code>&lt;link&gt;</code> — add <code>:ital@1</code> — or the browser fakes it.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== FONT WEIGHT ==================== -->
+    <div class="element-card" id="font-weight">
+      <div class="card-header">
+        <h2>Font Weight <code>font-weight</code></h2>
+        <span class="element-type">Style</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:4px;">
+            <p style="font-family:'Sora',sans-serif; font-weight:300; font-size:1.15em;">Light (300)</p>
+            <p style="font-family:'Sora',sans-serif; font-weight:400; font-size:1.15em;">Regular (400)</p>
+            <p style="font-family:'Sora',sans-serif; font-weight:600; font-size:1.15em;">Semibold (600)</p>
+            <p style="font-family:'Sora',sans-serif; font-weight:700; font-size:1.15em;">Bold (700)</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">.light</span> <span class="x">{</span> <span class="p">font-weight</span><span class="x">:</span> <span class="v">300</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.regular</span> <span class="x">{</span> <span class="p">font-weight</span><span class="x">:</span> <span class="v">400</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.semi</span> <span class="x">{</span> <span class="p">font-weight</span><span class="x">:</span> <span class="v">600</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.bold</span> <span class="x">{</span> <span class="p">font-weight</span><span class="x">:</span> <span class="v">700</span><span class="x">;</span> <span class="x">}</span></div>
+          <div class="attr-section-label">Only weights you loaded in the <code>&lt;link&gt;</code> tag will render correctly. Others get faked by the browser.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== FONT PAIRING ==================== -->
+    <div class="element-card" id="font-pairing">
+      <div class="card-header">
+        <h2>Font Pairing</h2>
+        <span class="element-type">Concept</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:16px;">
+            <div style="border-bottom:1px solid #eee; padding-bottom:12px;">
+              <p style="font-family:'Playfair Display',serif; font-size:1.5em; font-weight:700; color:#111;">Playfair Display</p>
+              <p style="font-family:'Outfit',sans-serif; font-size:0.95em; color:#555; margin-top:2px;">Paired with Outfit for body text. Serif headline + sans-serif body is a classic combo.</p>
+            </div>
+            <div>
+              <p style="font-family:'Unbounded',sans-serif; font-size:1.3em; font-weight:700; color:#111;">Unbounded</p>
+              <p style="font-family:'Newsreader',serif; font-size:0.95em; color:#555; font-style:italic; margin-top:2px;">Paired with Newsreader italic. Geometric display + editorial serif creates tension.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="c">/* Load both fonts in one &lt;link&gt; tag */</span>
+<span class="x">&lt;</span><span class="t">link</span> <span class="a">href</span><span class="x">=</span><span class="str">"https://fonts.googleapis.com
+  /css2?family=Playfair+Display
+  :wght@700&amp;family=Outfit
+  :wght@400&amp;display=swap"</span>
+  <span class="a">rel</span><span class="x">=</span><span class="str">"stylesheet"</span><span class="x">&gt;</span>
+
+<span class="s">h1</span> <span class="x">{</span> <span class="p">font-family</span><span class="x">:</span> <span class="v">'Playfair Display', serif</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">p</span>  <span class="x">{</span> <span class="p">font-family</span><span class="x">:</span> <span class="v">'Outfit', sans-serif</span><span class="x">;</span> <span class="x">}</span></div>
+          <div class="attr-section-label">Pair fonts with contrast: serif + sans-serif, heavy + light, display + body. Don't mix two similar fonts.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== LETTER SPACING (TRACKING) ==================== -->
+    <div class="element-card" id="letter-spacing">
+      <div class="card-header">
+        <h2>Letter Spacing / Tracking <code>letter-spacing</code></h2>
+        <span class="element-type">Spacing</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:8px;">
+            <p style="font-family:'Outfit',sans-serif; letter-spacing:-0.03em; font-size:1.6em; font-weight:700; color:#111;">Tight tracking</p>
+            <p style="font-family:'Outfit',sans-serif; letter-spacing:0; font-size:1em; color:#333;">Normal tracking (default)</p>
+            <p style="font-family:'Outfit',sans-serif; letter-spacing:0.15em; font-size:0.8em; text-transform:uppercase; color:#888; font-weight:600;">Wide tracking — labels</p>
+            <p style="font-family:'Outfit',sans-serif; letter-spacing:0.4em; font-size:0.75em; text-transform:uppercase; color:#aaa; font-weight:600;">Extra wide</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="c">/* Negative = tighter, positive = looser */</span>
+<span class="s">.headline</span> <span class="x">{</span>
+  <span class="p">letter-spacing</span><span class="x">:</span> <span class="v">-0.03em</span><span class="x">;</span>  <span class="c">/* tight */</span>
+<span class="x">}</span>
+
+<span class="s">.label</span> <span class="x">{</span>
+  <span class="p">letter-spacing</span><span class="x">:</span> <span class="v">0.15em</span><span class="x">;</span>  <span class="c">/* wide */</span>
+  <span class="p">text-transform</span><span class="x">:</span> <span class="v">uppercase</span><span class="x">;</span>
+<span class="x">}</span>
+
+<span class="s">.spacious</span> <span class="x">{</span>
+  <span class="p">letter-spacing</span><span class="x">:</span> <span class="v">4px</span><span class="x">;</span>    <span class="c">/* px works too */</span>
+<span class="x">}</span></div>
+          <table class="attr-table">
+            <tr><th>Value</th><th>When To Use</th></tr>
+            <tr><td><code>-0.02em</code> to <code>-0.05em</code></td><td class="desc">Large headlines — tighten for impact</td></tr>
+            <tr><td><code>0</code></td><td class="desc">Body text — leave at default</td></tr>
+            <tr><td><code>0.05em</code> to <code>0.2em</code></td><td class="desc">Uppercase labels, small caps, captions</td></tr>
+          </table>
+          <div class="attr-section-label">Use <code>em</code> so spacing scales with font size. Uppercase text almost always needs extra tracking.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== WORD SPACING ==================== -->
+    <div class="element-card" id="word-spacing">
+      <div class="card-header">
+        <h2>Word Spacing <code>word-spacing</code></h2>
+        <span class="element-type">Spacing</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:8px;">
+            <p style="font-family:'Lora',serif; word-spacing:-2px; font-size:1em; color:#333;">Tight word spacing makes text feel compressed and urgent in a paragraph.</p>
+            <p style="font-family:'Lora',serif; word-spacing:0; font-size:1em; color:#333;">Normal word spacing is what you get by default — the browser picks it.</p>
+            <p style="font-family:'Lora',serif; word-spacing:8px; font-size:1em; color:#333;">Wide word spacing adds an airy, editorial feeling to each line.</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">.tight</span>  <span class="x">{</span> <span class="p">word-spacing</span><span class="x">:</span> <span class="v">-2px</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.normal</span> <span class="x">{</span> <span class="p">word-spacing</span><span class="x">:</span> <span class="v">normal</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.airy</span>   <span class="x">{</span> <span class="p">word-spacing</span><span class="x">:</span> <span class="v">8px</span><span class="x">;</span> <span class="x">}</span></div>
+          <div class="attr-section-label">Less commonly adjusted than <code>letter-spacing</code>, but useful for fine-tuning justified text or stylistic effects.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== FONT KERNING ==================== -->
+    <div class="element-card" id="font-kerning">
+      <div class="card-header">
+        <h2>Kerning <code>font-kerning</code></h2>
+        <span class="element-type">Spacing</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:8px;">
+            <div>
+              <p style="font-size:0.7em; color:#999; text-transform:uppercase; letter-spacing:0.08em; font-weight:600; margin-bottom:2px;">Kerning: auto (default)</p>
+              <p style="font-family:'Playfair Display',serif; font-size:2.2em; font-weight:700; font-kerning:auto; color:#111;">WAVE Type AV</p>
+            </div>
+            <div>
+              <p style="font-size:0.7em; color:#999; text-transform:uppercase; letter-spacing:0.08em; font-weight:600; margin-bottom:2px;">Kerning: none</p>
+              <p style="font-family:'Playfair Display',serif; font-size:2.2em; font-weight:700; font-kerning:none; color:#111;">WAVE Type AV</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="c">/* Kerning adjusts space between
+   specific letter PAIRS (AV, To, Wa) */</span>
+
+<span class="s">.auto</span> <span class="x">{</span> <span class="p">font-kerning</span><span class="x">:</span> <span class="v">auto</span><span class="x">;</span> <span class="x">}</span>   <span class="c">/* browser decides */</span>
+<span class="s">.on</span>   <span class="x">{</span> <span class="p">font-kerning</span><span class="x">:</span> <span class="v">normal</span><span class="x">;</span> <span class="x">}</span> <span class="c">/* force on */</span>
+<span class="s">.off</span>  <span class="x">{</span> <span class="p">font-kerning</span><span class="x">:</span> <span class="v">none</span><span class="x">;</span> <span class="x">}</span>   <span class="c">/* force off */</span></div>
+          <table class="attr-table">
+            <tr><th>Kerning vs Tracking</th><th></th></tr>
+            <tr><td><code>font-kerning</code></td><td class="desc">Adjusts specific pairs (AV, To) — built into the font file</td></tr>
+            <tr><td><code>letter-spacing</code></td><td class="desc">Uniform spacing between ALL letters</td></tr>
+          </table>
+          <div class="attr-section-label">Most browsers kern by default. You rarely need to change this — but it's good to know it exists.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== TEXT TRANSFORM ==================== -->
+    <div class="element-card" id="text-transform">
+      <div class="card-header">
+        <h2>Text Transform <code>text-transform</code></h2>
+        <span class="element-type">Transform</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:8px;">
+            <p style="font-family:'Outfit',sans-serif; text-transform:uppercase; letter-spacing:0.12em; font-weight:600; font-size:0.9em; color:#888; background:#f5f5f5; padding:8px 12px; border-radius:4px;">uppercase — great for labels</p>
+            <p style="font-family:'Outfit',sans-serif; text-transform:lowercase; font-size:1.1em; color:#333;">LOWERCASE — forces all letters down</p>
+            <p style="font-family:'Playfair Display',serif; text-transform:capitalize; font-size:1.3em; color:#111;">capitalize each word in a title</p>
+            <p style="font-family:'Outfit',sans-serif; text-transform:none; font-size:1em; color:#666;">None — text stays as written in HTML</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">.label</span> <span class="x">{</span>
+  <span class="p">text-transform</span><span class="x">:</span> <span class="v">uppercase</span><span class="x">;</span>
+  <span class="p">letter-spacing</span><span class="x">:</span> <span class="v">0.1em</span><span class="x">;</span>  <span class="c">/* always add! */</span>
+<span class="x">}</span>
+
+<span class="s">.lower</span> <span class="x">{</span> <span class="p">text-transform</span><span class="x">:</span> <span class="v">lowercase</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.title</span> <span class="x">{</span> <span class="p">text-transform</span><span class="x">:</span> <span class="v">capitalize</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.reset</span> <span class="x">{</span> <span class="p">text-transform</span><span class="x">:</span> <span class="v">none</span><span class="x">;</span> <span class="x">}</span></div>
+          <table class="attr-table">
+            <tr><th>Value</th><th>Effect</th></tr>
+            <tr><td><code>uppercase</code></td><td class="desc">ALL CAPS — labels, buttons, nav items</td></tr>
+            <tr><td><code>lowercase</code></td><td class="desc">all lowercase — stylistic choice</td></tr>
+            <tr><td><code>capitalize</code></td><td class="desc">First Letter Of Each Word</td></tr>
+            <tr><td><code>none</code></td><td class="desc">Keeps text as-is (override/reset)</td></tr>
+          </table>
+          <div class="attr-section-label">Use CSS instead of typing caps in HTML — easier to change later, and screen readers handle it better.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== FONT VARIANT (SMALL CAPS) ==================== -->
+    <div class="element-card" id="font-variant">
+      <div class="card-header">
+        <h2>Small Caps <code>font-variant</code></h2>
+        <span class="element-type">Transform</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:10px;">
+            <div>
+              <p style="font-size:0.7em; color:#999; text-transform:uppercase; letter-spacing:0.08em; font-weight:600; margin-bottom:2px;">Normal caps</p>
+              <p style="font-family:'Cormorant Garamond',serif; font-size:1.3em; color:#111;">The United Nations met in New York.</p>
+            </div>
+            <div>
+              <p style="font-size:0.7em; color:#999; text-transform:uppercase; letter-spacing:0.08em; font-weight:600; margin-bottom:2px;">Small caps</p>
+              <p style="font-family:'Cormorant Garamond',serif; font-size:1.3em; color:#111; font-variant:small-caps;">The United Nations met in New York.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">.small-caps</span> <span class="x">{</span>
+  <span class="p">font-variant</span><span class="x">:</span> <span class="v">small-caps</span><span class="x">;</span>
+<span class="x">}</span>
+
+<span class="c">/* More control with font-variant-caps */</span>
+<span class="s">.all-small</span> <span class="x">{</span>
+  <span class="p">font-variant-caps</span><span class="x">:</span> <span class="v">all-small-caps</span><span class="x">;</span>
+<span class="x">}</span></div>
+          <table class="attr-table">
+            <tr><th>Value</th><th>Effect</th></tr>
+            <tr><td><code>small-caps</code></td><td class="desc">Lowercase → small uppercase; real caps stay full-size</td></tr>
+            <tr><td><code>all-small-caps</code></td><td class="desc">ALL letters become small-cap height</td></tr>
+            <tr><td><code>normal</code></td><td class="desc">Default — no small caps</td></tr>
+          </table>
+          <div class="attr-section-label">Small caps look elegant for acronyms (NASA, FBI) and introductory lines in editorial design.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== FLUID TYPE / CLAMP ==================== -->
+    <div class="element-card" id="font-size-clamp">
+      <div class="card-header">
+        <h2>Fluid Type <code>clamp()</code></h2>
+        <span class="element-type">Fine Control</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area">
+            <p style="font-family:'Fraunces',serif; font-size:clamp(1.2rem, 3vw, 2.4rem); font-weight:700; color:#111; line-height:1.2;">This headline scales with the viewport — bigger on wide screens, smaller on narrow.</p>
+            <p style="font-family:'Outfit',sans-serif; font-size:0.85em; color:#888; margin-top:8px;">↕ Resize your browser to see it change.</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="c">/* clamp(minimum, preferred, maximum) */</span>
+
+<span class="s">h1</span> <span class="x">{</span>
+  <span class="p">font-size</span><span class="x">:</span> <span class="v">clamp(1.2rem, 4vw, 3rem)</span><span class="x">;</span>
+<span class="x">}</span>
+
+<span class="s">p</span> <span class="x">{</span>
+  <span class="p">font-size</span><span class="x">:</span> <span class="v">clamp(0.9rem, 1.5vw, 1.1rem)</span><span class="x">;</span>
+<span class="x">}</span></div>
+          <table class="attr-table">
+            <tr><th>Argument</th><th>Meaning</th></tr>
+            <tr><td><code>min</code></td><td class="desc">Never shrinks below this (e.g. <code>1rem</code>)</td></tr>
+            <tr><td><code>preferred</code></td><td class="desc">Scales with viewport (<code>vw</code>)</td></tr>
+            <tr><td><code>max</code></td><td class="desc">Never grows above this (e.g. <code>3rem</code>)</td></tr>
+          </table>
+          <div class="attr-section-label">Fluid type replaces media queries for font sizes. One line handles all screen widths.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== LINE HEIGHT (LEADING) ==================== -->
+    <div class="element-card" id="line-height">
+      <div class="card-header">
+        <h2>Leading <code>line-height</code></h2>
+        <span class="element-type">Fine Control</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:10px;">
+            <p style="line-height:1.0; background:#fff3cd; padding:10px; border-radius:4px; font-family:'Crimson Pro',serif; font-size:1em;">Leading of 1.0 — lines touch each other, which gets hard to read quickly in longer passages of body text.</p>
+            <p style="line-height:1.6; background:#d4edda; padding:10px; border-radius:4px; font-family:'Crimson Pro',serif; font-size:1em;">Leading of 1.6 — comfortable for body copy. Enough air to let the eye track from line to line naturally.</p>
+            <p style="line-height:1.1; font-family:'Playfair Display',serif; font-size:1.8em; font-weight:700; color:#111;">Big headlines need tight leading like 1.1</p>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">body</span> <span class="x">{</span>
+  <span class="p">line-height</span><span class="x">:</span> <span class="v">1.6</span><span class="x">;</span>   <span class="c">/* body text */</span>
+<span class="x">}</span>
+
+<span class="s">h1</span> <span class="x">{</span>
+  <span class="p">line-height</span><span class="x">:</span> <span class="v">1.1</span><span class="x">;</span>   <span class="c">/* headlines */</span>
+<span class="x">}</span></div>
+          <table class="attr-table">
+            <tr><th>Context</th><th>Good Range</th></tr>
+            <tr><td class="desc">Headlines</td><td><code>1.0</code> – <code>1.2</code></td></tr>
+            <tr><td class="desc">Body text</td><td><code>1.5</code> – <code>1.8</code></td></tr>
+            <tr><td class="desc">Small / caption text</td><td><code>1.4</code> – <code>1.6</code></td></tr>
+          </table>
+          <div class="attr-section-label">A unitless number is a multiplier of the font-size. Bigger type → tighter leading. Smaller type → looser.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== TEXT INDENT ==================== -->
+    <div class="element-card" id="text-indent">
+      <div class="card-header">
+        <h2>Text Indent <code>text-indent</code></h2>
+        <span class="element-type">Fine Control</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:10px;">
+            <div>
+              <p style="font-size:0.7em; color:#999; text-transform:uppercase; letter-spacing:0.08em; font-weight:600; margin-bottom:2px;">No indent</p>
+              <p style="font-family:'Lora',serif; font-size:0.95em; color:#333;">Typography is the art and technique of arranging type to make written language legible, readable, and appealing when displayed.</p>
+            </div>
+            <div>
+              <p style="font-size:0.7em; color:#999; text-transform:uppercase; letter-spacing:0.08em; font-weight:600; margin-bottom:2px;">text-indent: 2em</p>
+              <p style="font-family:'Lora',serif; font-size:0.95em; color:#333; text-indent:2em;">Typography is the art and technique of arranging type to make written language legible, readable, and appealing when displayed.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">p</span> <span class="x">{</span>
+  <span class="p">text-indent</span><span class="x">:</span> <span class="v">2em</span><span class="x">;</span>  <span class="c">/* indent first line */</span>
+<span class="x">}</span>
+
+<span class="c">/* Negative indent for hanging text */</span>
+<span class="s">.hang</span> <span class="x">{</span>
+  <span class="p">text-indent</span><span class="x">:</span> <span class="v">-1em</span><span class="x">;</span>
+  <span class="p">padding-left</span><span class="x">:</span> <span class="v">1em</span><span class="x">;</span>
+<span class="x">}</span></div>
+          <div class="attr-section-label">Classic book typography uses indented first lines instead of spacing between paragraphs.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== WHITE SPACE ==================== -->
+    <div class="element-card" id="white-space">
+      <div class="card-header">
+        <h2>White Space <code>white-space</code></h2>
+        <span class="element-type">Fine Control</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:8px;">
+            <div>
+              <p style="font-size:0.7em; color:#999; text-transform:uppercase; letter-spacing:0.08em; font-weight:600; margin-bottom:2px;">normal (wraps)</p>
+              <p style="font-family:'Outfit',sans-serif; font-size:0.9em; white-space:normal; color:#333;">This long text wraps normally at the edge of its container, breaking into multiple lines as needed.</p>
+            </div>
+            <div style="overflow:hidden;">
+              <p style="font-size:0.7em; color:#999; text-transform:uppercase; letter-spacing:0.08em; font-weight:600; margin-bottom:2px;">nowrap (single line)</p>
+              <p style="font-family:'Outfit',sans-serif; font-size:0.9em; white-space:nowrap; color:#333; overflow:hidden; text-overflow:ellipsis;">This long text never wraps — it stays on one line and gets cut off with an ellipsis if you combine it with overflow hidden and text-overflow.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="s">.wrap</span>   <span class="x">{</span> <span class="p">white-space</span><span class="x">:</span> <span class="v">normal</span><span class="x">;</span> <span class="x">}</span>
+<span class="s">.nowrap</span> <span class="x">{</span> <span class="p">white-space</span><span class="x">:</span> <span class="v">nowrap</span><span class="x">;</span> <span class="x">}</span>
+
+<span class="c">/* Truncate with ellipsis */</span>
+<span class="s">.truncate</span> <span class="x">{</span>
+  <span class="p">white-space</span><span class="x">:</span> <span class="v">nowrap</span><span class="x">;</span>
+  <span class="p">overflow</span><span class="x">:</span> <span class="v">hidden</span><span class="x">;</span>
+  <span class="p">text-overflow</span><span class="x">:</span> <span class="v">ellipsis</span><span class="x">;</span>
+<span class="x">}</span></div>
+          <table class="attr-table">
+            <tr><th>Value</th><th>Effect</th></tr>
+            <tr><td><code>normal</code></td><td class="desc">Collapses whitespace, wraps text</td></tr>
+            <tr><td><code>nowrap</code></td><td class="desc">Collapses whitespace, no wrapping</td></tr>
+            <tr><td><code>pre</code></td><td class="desc">Preserves whitespace and line breaks (like code)</td></tr>
+            <tr><td><code>pre-wrap</code></td><td class="desc">Preserves whitespace, but wraps</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== TEXT RENDERING ==================== -->
+    <div class="element-card" id="text-rendering">
+      <div class="card-header">
+        <h2>Text Rendering <code>text-rendering</code></h2>
+        <span class="element-type">Fine Control</span>
+      </div>
+      <div class="card-body">
+        <div class="card-preview">
+          <div class="card-preview-label">Preview</div>
+          <div class="preview-area" style="gap:8px;">
+            <div>
+              <p style="font-size:0.7em; color:#999; text-transform:uppercase; letter-spacing:0.08em; font-weight:600; margin-bottom:2px;">optimizeSpeed</p>
+              <p style="font-family:'Cormorant Garamond',serif; font-size:1.5em; text-rendering:optimizeSpeed; color:#111;">Affluent → fi fl ffi</p>
+            </div>
+            <div>
+              <p style="font-size:0.7em; color:#999; text-transform:uppercase; letter-spacing:0.08em; font-weight:600; margin-bottom:2px;">optimizeLegibility</p>
+              <p style="font-family:'Cormorant Garamond',serif; font-size:1.5em; text-rendering:optimizeLegibility; color:#111;">Affluent → fi fl ffi</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-code">
+          <div class="card-code-label">Code</div>
+          <div class="code-block"><span class="c">/* Enable ligatures &amp; kerning */</span>
+<span class="s">body</span> <span class="x">{</span>
+  <span class="p">text-rendering</span><span class="x">:</span> <span class="v">optimizeLegibility</span><span class="x">;</span>
+<span class="x">}</span>
+
+<span class="c">/* Anti-aliasing (WebKit/macOS) */</span>
+<span class="s">body</span> <span class="x">{</span>
+  <span class="p">-webkit-font-smoothing</span><span class="x">:</span> <span class="v">antialiased</span><span class="x">;</span>
+  <span class="p">-moz-osx-font-smoothing</span><span class="x">:</span> <span class="v">grayscale</span><span class="x">;</span>
+<span class="x">}</span></div>
+          <table class="attr-table">
+            <tr><th>Value</th><th>Effect</th></tr>
+            <tr><td><code>optimizeSpeed</code></td><td class="desc">Fastest — skips ligatures and kerning</td></tr>
+            <tr><td><code>optimizeLegibility</code></td><td class="desc">Enables ligatures (fi, fl) and kerning</td></tr>
+            <tr><td><code>geometricPrecision</code></td><td class="desc">Precise scaling — best for animations</td></tr>
+          </table>
+          <div class="attr-section-label">Add <code>-webkit-font-smoothing: antialiased</code> to the <code>body</code> for sharper text on Mac screens.</div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+</body>
+</html>
